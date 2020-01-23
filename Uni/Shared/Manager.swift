@@ -12,6 +12,7 @@ import RealmSwift
 import CircleMenu
 import paper_onboarding
 import UIKit
+import MapKit
 
 final class Manager {
     
@@ -31,6 +32,12 @@ final class Manager {
     
     var UFD = [ University : [Faculty? : [Department]?]]()
     var dataUFD = [University : [Faculty? : [Department]?]]()
+    var uniaddr: [String : String] = ["МГТУ" : "2-я Бауманская ул., д.5, стр.1, Москва, 105005",
+                   "МФТИ" : "141701, Московская область, г. Долгопрудный, Институтский переулок, д.9",
+                   "ИТМО" : "Кронверкский пр., 49, Санкт-Петербург, 197101",
+                   "СПбГУ" : "Университетская наб., 7/9, Санкт-Петербург, 199034",
+                   "РУДН" : "ул. Миклухо-Маклая, 6, Москва, 117198",
+                   "РГГУ" : "Миусская пл., 6, Москва, 125993"]
     
     var choosed: [Any?] = [nil,nil,nil]
     
@@ -113,6 +120,29 @@ final class Manager {
                 catch{
                     print(error.localizedDescription)
                 }
+            }
+        }
+    }
+    
+    func openMaps(university: University) {
+        let geocoder = CLGeocoder()
+        
+        geocoder.geocodeAddressString(uniaddr[university.name] ?? "") { (placemarkOptions, error) in
+            if let placemarks = placemarkOptions {
+                if let location = placemarks.first?.location {
+                    
+                    let query = "?daddr=\(location.coordinate.latitude),\(location.coordinate.longitude)"
+                    let path = "http://maps.apple.com/" + query
+                    if let url = URL(string: path) {
+                        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                    } else {
+                        print("DEBUG #0")
+                    }
+                } else {
+                    print("DEBUG #1")
+                }
+            } else {
+                print("DEBUG #2")
             }
         }
     }
@@ -202,9 +232,9 @@ final class Manager {
         ((controller as? UITabBarController)?.selectedViewController as? UINavigationController)?.viewControllers[0].viewDidLoad()
     }
     
-    func warningCheck(occasion: String, viewController: UIViewController, warningLabel: UILabel, tableView: UITableView){
+    func warningCheck(occasion: String, viewController: UIViewController, warningLabel: UILabel, tableView: UITableView, warningTitle: String){
         if occasion == "show"{
-            Manager.shared.warningLabel(label: warningLabel, warning: "По вашему запросу \n ничего не найдено", viewController:viewController, tableView: tableView)
+            Manager.shared.warningLabel(label: warningLabel, warning: warningTitle, viewController:viewController, tableView: tableView)
         }else{
             warningLabel.alpha = 0
             tableView.backgroundColor = .white

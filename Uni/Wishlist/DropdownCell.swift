@@ -36,7 +36,7 @@ class DropdownCell: UITableViewCell{
             try Manager.shared.realm.write {
               objectToDelete = Manager.shared.realm.objects(RealmObject.self).filter("departmentFullName = '\((self.departmentNameLabel.text)!)'")[0]
             }
-        } catch{
+        } catch {
             print(error.localizedDescription)
         }
         Manager.shared.notificationCenter.post(Notification(name: Notification.Name(rawValue: "Department Deleted from wishlist")))
@@ -49,7 +49,22 @@ class DropdownCell: UITableViewCell{
     @IBOutlet weak var mapButtonOutlet: UIButton!
     
     @IBAction func mapButton(_ sender: UIButton) {
+        var department: RealmObject = RealmObject()
         
+        do {
+            try Manager.shared.realm.write {
+                department = Manager.shared.realm.objects(RealmObject.self).filter("departmentFullName = '\((self.departmentNameLabel.text)!)'")[0]
+            }
+        } catch {
+            print(error.localizedDescription)
+        }
+        
+        for val in Manager.shared.UFD {
+            if val.key.name == department.universityName {
+                Manager.shared.openMaps(university: val.key)
+                return
+            }
+        }
     }
     
     @IBOutlet weak var openView: UIView!
