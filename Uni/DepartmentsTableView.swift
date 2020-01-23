@@ -44,7 +44,19 @@ final class DepartmentsTableView: UIViewController {
     }
     
     func setupOpenSortButton(){
-          navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Сортировать", style: .plain, target: self, action: #selector(openSortButtonAction))
+        let button = UIButton()
+        //set image for button
+        button.setImage(UIImage(named: "filterIcon"), for: .normal)
+        //add function for button
+        button.addTarget(self, action: #selector(openSortButtonAction), for: .touchUpInside)
+        //set frame
+//        button.frame = CGRect(x: <#T##Double#>, y: <#T##Double#>, width: <#T##Double#>, height: <#T##Double#>)
+
+        let barButton = UIBarButtonItem(customView: button)
+        //assign button to navigationbar
+        self.navigationItem.rightBarButtonItem = barButton
+//        navigationItem.rightBarButtonItem?.image = UIImage(named: "filterIcon")
+//        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: #selector(openSortButtonAction))
           navigationItem.rightBarButtonItem?.tintColor = .white
       }
 

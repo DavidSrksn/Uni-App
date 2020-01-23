@@ -323,8 +323,9 @@ extension FilterViewController {
         pointsTextField.layer.borderColor = UIColor.black.cgColor
         pointsTextField.layer.borderWidth = 1
         
+        pointsTextField.textAlignment = .center
         pointsTextField.placeholder = " Минимальный балл "
-        pointsTextField.contentHorizontalAlignment = .left
+        pointsTextField.contentHorizontalAlignment = .center
         
         pointsTextField.delegate = self
         

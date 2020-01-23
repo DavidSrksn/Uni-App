@@ -193,14 +193,13 @@ class NetworkManager{
                     print("\(error.localizedDescription)")
                 }else{
                     if let data = querySnapshot!.data(){
-                        let currentFollowers = data["followers"] as! Int
                         self.db.collection("Universities")
                             .document(universityname)
                             .collection("\(universityname)faculties")
                             .document(facultyFullName)
                             .collection("departments")
                             .document(departmentFullName)
-                            .updateData(["followers": currentFollowers + difference]) { (error) in
+                            .updateData(["followers": data["followers"] as! Int + difference]) { (error) in
                                 if let error = error {
                                     print("\(error.localizedDescription)")
                                 }else{

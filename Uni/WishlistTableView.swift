@@ -37,7 +37,7 @@ final class WishlistTableView: UIViewController {
         super.viewDidLoad()
         setTable()
         Manager.shared.workItem = DispatchWorkItem(qos: .userInteractive, flags: .barrier, block: {
-            self.deleteMechanic(choosedRow: self.button_tag)
+            self.deleteMechanic(choosedRow: self.button_tag, warningOcassionNumber: 0)
             self.tableView.reloadData()
         })
         Manager.shared.workItem.notify(queue: .main) {
@@ -52,10 +52,10 @@ final class WishlistTableView: UIViewController {
             }
             
             if (self.tableView.cellForRow(at: IndexPath(row: row!, section: 0)) as? DropdownCell) != nil{
-            self.deleteMechanic(choosedRow: row!)
+            self.deleteMechanic(choosedRow: row!, warningOcassionNumber: 0)
             }
             
-            Manager.shared.deleteFromWishlist(sender: nil, setImage: nil, departmentFullName: objectToDelete!.fullName)
+//            Manager.shared.deleteFromWishlist(sender: nil, setImage: nil, departmentFullName: objectToDelete!.fullName)
         }
     }
     
@@ -130,7 +130,7 @@ extension WishlistTableView : UITableViewDataSource,UITableViewDelegate{
                 } catch{
                     print(error.localizedDescription)
                 }
-                deleteMechanic(choosedRow: indexPath.row)
+                deleteMechanic(choosedRow: indexPath.row, warningOcassionNumber: 1)
                 Manager.shared.deleteFromWishlist(sender: nil, setImage: nil, departmentFullName: objectToDelete.departmentFullName)
                 Manager.shared.notificationCenter.post(Notification(name: Notification.Name(rawValue: "Department Deleted from wishlist")))
                 tableView.reloadData()
@@ -165,7 +165,7 @@ extension WishlistTableView : UITableViewDataSource,UITableViewDelegate{
         self.tableView.endUpdates()
     }
     
-    func deleteMechanic(choosedRow: Int) {
+    func deleteMechanic(choosedRow: Int, warningOcassionNumber: Int) {
         if lastCell.cellExists{
             self.lastCell.animate(duration: 0.2, c: {
                 self.view.layoutIfNeeded()
@@ -187,7 +187,7 @@ extension WishlistTableView : UITableViewDataSource,UITableViewDelegate{
 //            (self.tableView.cellForRow(at: IndexPath(row: choosedRow, section: 0)) as! DropdownCell).cellExists = false
         }
         
-        if Manager.shared.realm.objects(RealmObject.self).count == 0 {
+        if Manager.shared.realm.objects(RealmObject.self).filter("minPoints != -1").count == warningOcassionNumber { // 1 значит последняя
             Manager.shared.warningLabel(label: self.warninglabel, warning: "Список пуст", viewController: self, tableView: self.tableView)
         }
         

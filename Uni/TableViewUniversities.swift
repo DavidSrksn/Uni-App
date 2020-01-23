@@ -11,6 +11,23 @@ import Firebase
 import SkeletonView
 
 
+extension UIImage {
+  func resizeImage(targetSize: CGSize) -> UIImage {
+    let size = self.size
+    let widthRatio  = targetSize.width  / size.width
+    let heightRatio = targetSize.height / size.height
+    let newSize = widthRatio > heightRatio ?  CGSize(width: size.width * heightRatio, height: size.height * heightRatio) : CGSize(width: size.width * widthRatio,  height: size.height * widthRatio)
+    let rect = CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height)
+
+    UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
+    self.draw(in: rect)
+    let newImage = UIGraphicsGetImageFromCurrentImageContext()
+    UIGraphicsEndImageContext()
+
+    return newImage!
+  }
+}
+
 class TableViewUniversities: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
@@ -31,10 +48,6 @@ class TableViewUniversities: UIViewController {
     private func setupFilterButton() {
         self.view.addSubview(filterButton)
         
-        if let filterImage = UIImage(named: "filterIcon") {
-            filterButton.setImage(filterImage, for: .normal)
-        }
-        
         filterButton.frame = CGRect(origin: CGPoint(x: self.view.frame.width - 100, y: self.view.frame.height - 180), size: CGSize(width: 80, height: 80))
         filterButton.layer.cornerRadius = filterButton.frame.width / 2
         
@@ -44,6 +57,13 @@ class TableViewUniversities: UIViewController {
         filterButton.layer.shadowRadius = filterButton.layer.cornerRadius * 1.5
         
         filterButton.backgroundColor = UIColor.black
+        
+        if var filterImage = UIImage(named: "FirstLaunch Image1") {
+            filterImage.withRenderingMode(.alwaysTemplate)
+            filterButton.contentMode = .scaleAspectFit
+            filterImage = filterImage.resizeImage(targetSize: CGSize(width: filterButton.layer.cornerRadius * 1.4 , height: filterButton.layer.cornerRadius * 1.4))
+            filterButton.setImage(filterImage.withTintColor(.white), for: .normal)
+        }
         
         filterButton.addTarget(self, action: #selector(openFilter), for: .touchUpInside)
     }
@@ -91,8 +111,8 @@ class TableViewUniversities: UIViewController {
                     self.tableView.reloadData()
                     Loader.shared.removeActivityIndicator(blurView: Loader.shared.blurView, loadingView: Loader.shared.loadingView, actInd: Loader.shared.actInd)
                     if (Manager.shared.UFD.count == 0) && (currentUniversity == allUniversitiesNumber){
-                        Manager.shared.warningCheck(occasion: "show", viewController: self, warningLabel: self.warning, tableView: self.tableView)
-                    } else{ Manager.shared.warningCheck(occasion: "remove" , viewController: self, warningLabel: self.warning, tableView: self.tableView) }
+                        Manager.shared.warningCheck(occasion: "show", viewController: self, warningLabel: self.warning, tableView: self.tableView, warningTitle: "По вашему запросу \n ничего не найдено")
+                    } else{ Manager.shared.warningCheck(occasion: "remove" , viewController: self, warningLabel: self.warning, tableView: self.tableView, warningTitle: "По вашему запросу \n ничего не найдено") }
                 }
             })
         }
