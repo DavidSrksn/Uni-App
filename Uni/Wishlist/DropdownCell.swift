@@ -116,6 +116,7 @@ class DropdownCell: UITableViewCell{
         
         minPointsLabel.font = UIFont(name: "AvenirNext-Regular", size: 15)
         minPointsLabel.textColor = .black
+
         minPointsLabel.text = "Проходной балл: \(minPoints)"
         
         minPointsLabel.topAnchor.constraint(equalTo: followers.bottomAnchor, constant: 5).isActive = true
@@ -220,6 +221,8 @@ class DropdownCell: UITableViewCell{
         facultyFullNameLabel.heightAnchor.constraint(equalToConstant: 70).isActive = true
         
 //        universityName.centerYAnchor.constraint(equalTo: facultyFullNameLabel.centerYAnchor).isActive = true // центрирование Label'ов
+        
+        universityName.centerYAnchor.constraint(equalTo: facultyFullNameLabel.centerYAnchor).isActive = true // центрирование Label'ов
         
     }
     

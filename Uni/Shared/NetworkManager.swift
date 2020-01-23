@@ -77,6 +77,7 @@ class NetworkManager{
                                                                 Manager.shared.UFD[University(dictionary: university.data())!] = [:]
                                                             }
                                                         }
+
                                                         completion?(checkedUniversitiesCounter,(querySnapshot1?.documents)?.count ?? 0)
                                                     }
                                             }
@@ -192,6 +193,7 @@ class NetworkManager{
                 if let error = error {
                     print("\(error.localizedDescription)")
                 }else{
+
                     if let data = querySnapshot!.data(){
                         let currentFollowers = data["followers"] as! Int
                         self.db.collection("Universities")
@@ -208,6 +210,7 @@ class NetworkManager{
                                 }
                         }
                     }
+                    
                 }
         }
     }

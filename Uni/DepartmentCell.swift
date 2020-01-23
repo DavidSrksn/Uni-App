@@ -31,6 +31,7 @@ final class DepartmentCell: UITableViewCell {
         } else{
             Manager.shared.notificationCenter.post(name: Notification.Name(rawValue: "Department Deleted from Departments"), object: nil, userInfo: ["deletedObject" : Manager.shared.choosed[2] as! Department]) // для удаления из вишлиста
             sender.setImage(UIImage(systemName: "star")!, for: .normal)
+
         }
     }
     

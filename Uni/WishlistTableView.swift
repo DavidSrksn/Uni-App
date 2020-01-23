@@ -104,6 +104,7 @@ extension WishlistTableView : UITableViewDataSource,UITableViewDelegate{
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+
         let objects = Manager.shared.realm.objects(RealmObject.self).filter("minPoints != -1")
         let object = Array(objects)[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "DropdownCell", for: IndexPath(row: indexPath.row, section: 0)) as! DropdownCell
