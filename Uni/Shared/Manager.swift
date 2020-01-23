@@ -25,7 +25,7 @@ final class Manager {
     var FollowersWorkItem = DispatchWorkItem(qos: .background, flags: .assignCurrentContext) {
     }
     
-    let notificationCentre = NotificationCenter.default
+    let notificationCenter = NotificationCenter.default 
         
     static let shared = Manager()
     
@@ -37,6 +37,7 @@ final class Manager {
     let realm = try! Realm()
     
     var flagFilterChanged = true
+    var flagFilterFirstUsage = true
     var sortType: String?
     
     var filterSettings = Filter(country: nil, subjects: nil, minPoint: nil, military: nil, campus: nil)
@@ -81,7 +82,7 @@ final class Manager {
 //                    }else{return firstDep < secondDep }
                     return (sortType?.contains(firstDep.subjects.first(where: { (subject) -> Bool in
                         return (sortType?.contains(subject))!
-                    })!))!
+                    })!))! // ПОФИКСИТЬ  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 })
             }else{
                 break
@@ -151,14 +152,7 @@ final class Manager {
     
     func deleteFromWishlist (sender: UIButton?,setImage: UIImage?, departmentFullName: String){
         if NetworkReachabilityManager()!.isReachable{
-            do{
-                try self.realm.write {
-                    self.realm.delete(realm.objects(RealmObject.self).filter("departmentFullName = '\(departmentFullName)'"))
-                }
-            }
-            catch{
-                print(error.localizedDescription)
-            }
+
             NetworkManager.shared.changeFollower(occasion: "remove", universityname: (Manager.shared.choosed[0] as! University).name, facultyFullName: (Manager.shared.choosed[1] as! Faculty).fullName, departmentFullName: (Manager.shared.choosed[2] as! Department).fullName)
         }else {
             do{
@@ -177,7 +171,7 @@ final class Manager {
     }
     
     func departmentStatus(department: Department) -> Bool {
-        if Manager.shared.realm.objects(RealmObject.self).contains(where: { (wishlistObject) -> Bool in
+        if Manager.shared.realm.objects(RealmObject.self).filter("minPoints != -1").contains(where: { (wishlistObject) -> Bool in
             return wishlistObject.departmentFullName == department.fullName
         }){
             return false
@@ -191,7 +185,7 @@ final class Manager {
     }
     
     func filterSettingsChanged(filter: Filter){
-        if filter.country == Manager.shared.filterSettings.country && filter.campus == Manager.shared.filterSettings.campus && filter.minPoint == Manager.shared.filterSettings.minPoint && filter.campus == Manager.shared.filterSettings.campus && filter.subjects == Manager.shared.filterSettings.subjects {
+        if filter.country == Manager.shared.filterSettings.country && filter.campus == Manager.shared.filterSettings.campus && filter.minPoint == Manager.shared.filterSettings.minPoint && filter.military == Manager.shared.filterSettings.military && filter.subjects == Manager.shared.filterSettings.subjects {
             Manager.shared.flagFilterChanged = false
         } else{
             Manager.shared.flagFilterChanged = true
@@ -208,8 +202,8 @@ final class Manager {
         ((controller as? UITabBarController)?.selectedViewController as? UINavigationController)?.viewControllers[0].viewDidLoad()
     }
     
-    func warningCheck(parameter: Int, viewController: UIViewController, warningLabel: UILabel, tableView: UITableView){
-        if parameter == 0{
+    func warningCheck(occasion: String, viewController: UIViewController, warningLabel: UILabel, tableView: UITableView){
+        if occasion == "show"{
             Manager.shared.warningLabel(label: warningLabel, warning: "По вашему запросу \n ничего не найдено", viewController:viewController, tableView: tableView)
         }else{
             warningLabel.alpha = 0

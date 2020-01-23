@@ -14,7 +14,7 @@ struct FilterPresenter {
     mutating func loadFilterSettings() -> Bool {
         self.model = Manager.shared.loadFilterSettings()
         
-        return self.model.country != nil
+        return model.country != nil || model.campus != nil || model.military != nil || model.minPoint != nil || model.subjects != nil
     }
     
     func updateFilterSettings() {
@@ -37,9 +37,9 @@ struct FilterPresenter {
             }
         }
         
-        minPoints = Float(self.model.minPoint ?? 100)
-        military = self.model.military ?? true
-        campus = self.model.campus ?? true
+        minPoints = Float(self.model.minPoint ?? 0)
+        military = self.model.military ?? false
+        campus = self.model.campus ?? false
     }
     
     mutating func changeCountry(newCountry: String?) {
@@ -49,18 +49,18 @@ struct FilterPresenter {
     }
     
     mutating func updateSubject(newSubjects: [String]?) {
-        model.subjects = newSubjects ?? []
+        model.subjects = newSubjects
     }
     
-    mutating func changeMinPoint(for value: Int) {
+    mutating func changeMinPoint(for value: Int?) {
         model.minPoint = value
     }
     
-    mutating func changeMilitary(for value: Bool) {
+    mutating func changeMilitary(for value: Bool?) {
         model.military = value
     }
     
-    mutating func changeCampus(for value: Bool) {
+    mutating func changeCampus(for value: Bool?) {
         model.campus = value
     }
     

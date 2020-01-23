@@ -49,9 +49,10 @@ class TableViewUniversities: UIViewController {
     }
     
     private func setupNavigationItem() {
-        searchTitle.text = "University"
+        searchTitle.text = "Uni"
+        searchTitle.textAlignment = .center
         searchTitle.textColor = .white
-        searchTitle.font = UIFont(name: "Baskerville-Bold", size: 24)
+        searchTitle.font = UIFont(name: "Georgia", size: 24)
         
         navigationItem.titleView = searchTitle
     }
@@ -83,15 +84,15 @@ class TableViewUniversities: UIViewController {
     private func reloadData() {
         if  Manager.shared.flagFilterChanged {
             Loader.shared.showActivityIndicatory(uiView: view, blurView: Loader.shared.blurView, loadingView: Loader.shared.loadingView, actInd: Loader.shared.actInd)
-            //          let gradient = SkeletonGradient(baseColor: .alizarin, secondaryColor: .alizarin)
-//          let animation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .leftRight)
-//          view.showAnimatedGradientSkeleton(usingGradient: gradient, animation: animation, transition: .none)
-//          navigationController?.view.showAnimatedGradientSkeleton(usingGradient: gradient, animation: animation, transition: .none)
-            NetworkManager.shared.loadUniversities(tableView: self.tableView, warningLabel: warning, viewcontroller: self, city: Manager.shared.filterSettings.country, subjects: Manager.shared.filterSettings.subjects , minPoints: Manager.shared.filterSettings.minPoint, dormitory: Manager.shared.filterSettings.campus, militaryDepartment: Manager.shared.filterSettings.campus, completion: { [weak self] in
+            
+            NetworkManager.shared.loadUniversities(city: Manager.shared.filterSettings.country, subjects: Manager.shared.filterSettings.subjects , minPoints: Manager.shared.filterSettings.minPoint, dormitory: Manager.shared.filterSettings.campus, militaryDepartment: Manager.shared.filterSettings.military, completion: { (currentUniversity, allUniversitiesNumber) in
                 DispatchQueue.main.async{
                     Manager.shared.dataUFD = Manager.shared.UFD
-                    self?.tableView.reloadData()
+                    self.tableView.reloadData()
                     Loader.shared.removeActivityIndicator(blurView: Loader.shared.blurView, loadingView: Loader.shared.loadingView, actInd: Loader.shared.actInd)
+                    if (Manager.shared.UFD.count == 0) && (currentUniversity == allUniversitiesNumber){
+                        Manager.shared.warningCheck(occasion: "show", viewController: self, warningLabel: self.warning, tableView: self.tableView)
+                    } else{ Manager.shared.warningCheck(occasion: "remove" , viewController: self, warningLabel: self.warning, tableView: self.tableView) }
                 }
             })
         }
@@ -99,6 +100,7 @@ class TableViewUniversities: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.setNeedsStatusBarAppearanceUpdate()
         filterButton.isHidden = false
         filterButton.isEnabled = true
     }
@@ -129,8 +131,9 @@ class TableViewUniversities: UIViewController {
     }
   
     func setupTable(){
-        self.title = "University"
+        self.title = "Uni"
         
+        self.tabBarController?.tabBar.items?[0].title = NSLocalizedString("Home", comment: "")
         tableView.clipsToBounds = true
         tableView.tableFooterView = UIView()
         
@@ -196,6 +199,7 @@ extension TableViewUniversities :  SkeletonTableViewDataSource, SkeletonTableVie
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
             Manager.shared.choosed[0] = Array(Manager.shared.UFD.keys)[indexPath.row]
             let viewController = storyboard?.instantiateViewController(identifier: "факультет") as! FacultiesTableView
+            tableView.deselectRow(at: indexPath, animated: true)
             navigationController?.pushViewController(viewController, animated: true)
     }
     
@@ -227,7 +231,10 @@ extension TableViewUniversities: UISearchBarDelegate {
             Manager.shared.UFD = Manager.shared.dataUFD
         } else {
             Manager.shared.UFD = Manager.shared.dataUFD.filter {
-                return $0.key.fullName.contains(searchText)
+                let fullName = $0.key.fullName.lowercased()
+                let name = $0.key.name.lowercased()
+                let text = searchText.lowercased()
+                return fullName.contains(text) || name.contains(text)
             }
         }
         tableView.reloadData()
