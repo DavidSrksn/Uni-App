@@ -21,7 +21,7 @@ class LaunchView: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .black
+        view.backgroundColor = UIColor.Launch.background
         // animation
         setupLogoLabel()
         
@@ -54,7 +54,7 @@ class LaunchView: UIViewController {
         logoLabel.textAlignment = .center
         logoLabel.font = UIFont(name: "Georgia" , size: 45 )
         logoLabel.text = "Uni"
-        logoLabel.textColor = .white
+        logoLabel.textColor = UIColor.Launch.text
         logoImage.image = UIImage(named: "AppIcon")
     }
     
@@ -62,7 +62,7 @@ class LaunchView: UIViewController {
         let sb = UIStoryboard(name: "Main", bundle: nil)
         var initialVC = sb.instantiateViewController(identifier: "Onboarding")
         let userDefaults = UserDefaults.standard
-        if  !userDefaults.bool(forKey: "Onboarding Complete"){
+        if  userDefaults.bool(forKey: "Onboarding Complete"){
             initialVC = sb.instantiateViewController(identifier: "TabBarController")
         }
         return initialVC

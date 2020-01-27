@@ -37,10 +37,8 @@ final class DepartmentCell: UITableViewCell {
     }
     
     func setDepartmentCell(department: Department){
-        let selectedCellview = UIView()
-        selectedCellview.backgroundColor = UIColor(red: 28/256, green: 28/256, blue: 30/256, alpha: 1)
-        self.selectedBackgroundView = selectedCellview
-        
+        self.backgroundColor = UIColor.TableView.Cell.defaultBackground
+        self.contentView.backgroundColor = UIColor.TableView.Cell.defaultBackground
         setupDepartmentNameLabel(department: department)
         setupAddToWishlistButton(department: department)
         setupDepartmentFullNameLabel(department: department)
@@ -71,11 +69,11 @@ final class DepartmentCell: UITableViewCell {
         var lastLetter: Int = 0
         
         let noDifference: [NSAttributedString.Key: Any] = [
-            .foregroundColor:  UIColor.black,
+            .foregroundColor:  UIColor.Text.common,
             .backgroundColor: UIColor.clear]
         
         let withDifference: [NSAttributedString.Key: Any] = [
-            .foregroundColor: UIColor(red: 255/256, green: 0, blue: 0, alpha: 1).darker,
+            .foregroundColor: UIColor.Customs.red,
             .backgroundColor: UIColor.clear]
         
         if let filterSubjects = Manager.shared.filterSettings.subjects{
@@ -127,7 +125,7 @@ final class DepartmentCell: UITableViewCell {
         minPointsLabel.widthAnchor.constraint(equalToConstant: 170).isActive = true
         
         minPointsLabel.font = UIFont(name: "AvenirNext-Regular", size: 15)!
-        minPointsLabel.textColor = .black
+        minPointsLabel.textColor = UIColor.Text.common
         minPointsLabel.text = "Проходной балл: \(department.minPoints)"
     }
     
@@ -143,6 +141,7 @@ final class DepartmentCell: UITableViewCell {
         departmentNameLabel.font = UIFont(name: "AvenirNext-Regular", size: 20)!
         departmentNameLabel.textAlignment = .center
         
+        departmentNameLabel.textColor = UIColor.Text.common
         departmentNameLabel.text = department.name
         
     }
@@ -160,7 +159,7 @@ final class DepartmentCell: UITableViewCell {
         
         followersLabel.font = UIFont(name: "AvenirNext-Regular", size: 15)!
         followersLabel.textAlignment = .center
-        followersLabel.textColor = .black
+        followersLabel.textColor = UIColor.Text.common
         
         followersLabel.text = "\(department.followers)"
         
@@ -182,7 +181,7 @@ final class DepartmentCell: UITableViewCell {
         
         departmentFullNameLabel.numberOfLines = 0
         departmentFullNameLabel.font = UIFont(name: "AvenirNext-Regular", size: 18)!
-        departmentFullNameLabel.textColor = .black
+        departmentFullNameLabel.textColor = UIColor.Text.common
         departmentFullNameLabel.textAlignment = .center
         departmentFullNameLabel.text = department.fullName
 
@@ -198,17 +197,18 @@ final class DepartmentCell: UITableViewCell {
         addToWishlistButtonStatus.widthAnchor.constraint(equalToConstant: 40).isActive = true
         addToWishlistButtonStatus.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: 0).isActive = true
         
+        addToWishlistButtonStatus.tintColor = UIColor.AddToWishlistButtonTint
+        
         if !Manager.shared.departmentStatus(department: department){
             let origImage = UIImage(systemName: "star.fill")
             let tintedImage = origImage?.withRenderingMode(.alwaysTemplate)
             addToWishlistButtonStatus.setImage(tintedImage, for: .normal)
-            addToWishlistButtonStatus.tintColor = .black
+            
         }
         else{
             let origImage = UIImage(systemName: "star")
             let tintedImage = origImage?.withRenderingMode(.alwaysTemplate)
             addToWishlistButtonStatus.setImage(tintedImage, for: .normal)
-            addToWishlistButtonStatus.tintColor = .black
         }
     }
     
@@ -218,6 +218,12 @@ final class DepartmentCell: UITableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
+        let selectedCellview = UIView()
+        selectedCellview.backgroundColor = UIColor.TableView.Cell.choosedBackground
+        self.selectedBackgroundView = selectedCellview
+        departmentNameLabel.textColor = UIColor.TableView.Cell.choosedAttributes
+        departmentFullNameLabel.textColor = UIColor.TableView.Cell.choosedAttributes
+        followersLabel.textColor = UIColor.TableView.Cell.choosedAttributes
     }
 
 }

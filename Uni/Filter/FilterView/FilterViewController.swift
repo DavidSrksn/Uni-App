@@ -320,7 +320,7 @@ extension FilterViewController {
         pointsTextField.frame = CGRect(x: 0, y: 0, width: 0, height: 0)
         
         pointsTextField.layer.cornerRadius = 10
-        pointsTextField.layer.borderColor = UIColor.black.cgColor
+        pointsTextField.layer.borderColor = UIColor.MinPoints.border.cgColor
         pointsTextField.layer.borderWidth = 1
         
         pointsTextField.textAlignment = .center

@@ -42,10 +42,14 @@ final class FacultiesTableView: UIViewController {
                 }
             })
         }
-        
+        setupView()
         setupTable()
     }
 
+    func setupView(){
+        view.backgroundColor = UIColor.View.background
+    }
+    
     func setupDromitoryLabel(){
 //        dormitoryLabel.isSkeletonable = true
         
@@ -82,7 +86,7 @@ final class FacultiesTableView: UIViewController {
         
         dormitoryLabel.layer.cornerRadius = dormitoryLabel.bounds.height 
         dormitoryLabel.font = UIFont(name: "AvenirNext-Regular", size: 15)
-        dormitoryLabel.textColor = .black
+        dormitoryLabel.textColor = UIColor.Text.common
         dormitoryLabel.attributedText = attributedString
     }
     
@@ -122,7 +126,7 @@ final class FacultiesTableView: UIViewController {
         
         militaryDepartmentLabel.layer.cornerRadius = militaryDepartmentLabel.bounds.height
         militaryDepartmentLabel.font = UIFont(name: "AvenirNext-Regular", size: 15)
-        militaryDepartmentLabel.textColor = .black
+        militaryDepartmentLabel.textColor = UIColor.Text.common
         militaryDepartmentLabel.attributedText = attributedString
     }
     
@@ -132,9 +136,9 @@ final class FacultiesTableView: UIViewController {
         view.addSubview(mapButton)
         
         mapButton.layer.cornerRadius = 5
-        mapButton.backgroundColor = UIColor(red: 106/256, green: 166/256, blue: 211/256, alpha: 1)
+        mapButton.backgroundColor = UIColor.MapButton.background
         mapButton.setTitle("Построить маршрут", for: .normal)
-        mapButton.setTitleColor(.black, for: .normal)
+        mapButton.setTitleColor(UIColor.MapButton.text, for: .normal)
         mapButton.titleLabel?.font = UIFont(name: "AvenirNext-Regular", size: 15)
         
         mapButton.addTarget(.none, action: #selector(mapButtonAction), for: .touchUpInside)
@@ -164,8 +168,9 @@ final class FacultiesTableView: UIViewController {
         tableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         
         tableView.separatorStyle = .singleLine
-        tableView.separatorColor = .black
+        tableView.separatorColor = UIColor.TableView.separator
         tableView.separatorInset = .zero
+        tableView.backgroundColor = UIColor.TableView.background
         
         tableView.estimatedRowHeight = 70
         tableView.rowHeight = UITableView.automaticDimension
@@ -191,7 +196,7 @@ final class FacultiesTableView: UIViewController {
     func setupUniversityLabel(){
         universityLabel.layer.cornerRadius = cornerRadius
         
-        universityLabel.textColor = .black
+        universityLabel.textColor = UIColor.Text.common
         universityLabel.textAlignment = .center
         universityLabel.numberOfLines = 0
         

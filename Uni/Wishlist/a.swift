@@ -33,8 +33,8 @@ class SortCell: UITableViewCell {
     
     func setupSortType(){
         self.contentView.addSubview(sortTypeLabel)
-        
-        sortTypeLabel.textColor = .black
+        self.backgroundColor = UIColor.TableView.Cell.defaultBackground
+        sortTypeLabel.textColor = UIColor.Text.common
         sortTypeLabel.textAlignment = .center
         sortTypeLabel.font = UIFont(name: "AvenirNext-Regular", size: 17)!
         
@@ -59,10 +59,10 @@ class SortCell: UITableViewCell {
                 choosedView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -10).isActive = true
                 choosedView.widthAnchor.constraint(equalTo: choosedView.heightAnchor).isActive = true
                 
-                choosedView.backgroundColor = self.backgroundColor
+                choosedView.backgroundColor = UIColor.TableView.Cell.choosedBackground
                 
                 choosedView.image = UIImage(systemName: "checkmark")
-                choosedView.tintColor = UIColor(red: 28/256, green: 28/256, blue: 30/256, alpha: 1)
+                choosedView.tintColor = UIColor.TableView.Cell.choosedAttributes
             }else{
                 choosedView.image = UIImage(named: "Transparent.jpg")
             }

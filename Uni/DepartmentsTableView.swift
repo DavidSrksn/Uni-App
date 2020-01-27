@@ -57,7 +57,7 @@ final class DepartmentsTableView: UIViewController {
         self.navigationItem.rightBarButtonItem = barButton
 //        navigationItem.rightBarButtonItem?.image = UIImage(named: "filterIcon")
 //        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: #selector(openSortButtonAction))
-          navigationItem.rightBarButtonItem?.tintColor = .white
+        navigationItem.rightBarButtonItem?.tintColor = UIColor.NavigationController.item
       }
 
     @objc func openSortButtonAction(){
@@ -110,8 +110,8 @@ final class DepartmentsTableView: UIViewController {
         sortHeader.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
         sortHeader.heightAnchor.constraint(equalToConstant: 60).isActive = true
         
-        sortHeader.backgroundColor = UIColor(red: 28/256, green: 28/256, blue: 30/256, alpha: 1)
-        sortHeader.textColor = .white
+        sortHeader.backgroundColor = UIColor.TableView.headerBackground
+        sortHeader.textColor = UIColor.Text.common
         sortHeader.text = "Выберите тип сортировки"
         sortHeader.font = UIFont(name: "AvenirNext-Regular", size: 18)!
         sortHeader.textAlignment = .center
@@ -135,8 +135,9 @@ final class DepartmentsTableView: UIViewController {
         sortTableView.dataSource = sortTableView
         
         tableView.frame = view.bounds
-        
-        tableView.separatorColor = .black
+        tableView.backgroundColor = UIColor.TableView.background
+
+        tableView.separatorColor = UIColor.TableView.separator
         tableView.separatorStyle = .singleLine
         tableView.separatorInset = .zero
         tableView.tableFooterView = UIView.init(frame: .zero)
@@ -169,8 +170,9 @@ extension DepartmentsTableView : UITableViewDataSource,UITableViewDelegate{
         
         label.numberOfLines = 0
         label.textAlignment = .center
-        label.textColor = .white
-        label.backgroundColor = UIColor(red: 28/256, green: 28/256, blue: 30/256, alpha: 1)
+        label.textColor = UIColor.Text.title
+        label.backgroundColor = UIColor.TableView.headerBackground
+        label.alpha = 0.9
         label.font = UIFont(name: "AvenirNext-Bold", size: 20)!
         
         label.text = "\((Manager.shared.choosed[1] as! Faculty).fullName)"

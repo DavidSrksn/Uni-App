@@ -42,7 +42,7 @@ class TableViewUniversities: UIViewController {
     private let searchTitle = UILabel()
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
+        return UIStatusBarStyle.statusBar
     }
     
     private func setupFilterButton() {
@@ -51,18 +51,18 @@ class TableViewUniversities: UIViewController {
         filterButton.frame = CGRect(origin: CGPoint(x: self.view.frame.width - 100, y: self.view.frame.height - 180), size: CGSize(width: 80, height: 80))
         filterButton.layer.cornerRadius = filterButton.frame.width / 2
         
-        filterButton.layer.shadowColor = UIColor.black.cgColor
+        filterButton.layer.shadowColor = UIColor.FilterButton.shadow.cgColor
         filterButton.layer.shadowOffset = CGSize(width: 0, height: 2)
         filterButton.layer.shadowOpacity = 1.0
         filterButton.layer.shadowRadius = filterButton.layer.cornerRadius * 1.5
         
-        filterButton.backgroundColor = UIColor.black
+        filterButton.backgroundColor = UIColor.FilterButton.background
         
         if var filterImage = UIImage(named: "FirstLaunch Image1") {
             filterImage.withRenderingMode(.alwaysTemplate)
             filterButton.contentMode = .scaleAspectFit
             filterImage = filterImage.resizeImage(targetSize: CGSize(width: filterButton.layer.cornerRadius * 1.4 , height: filterButton.layer.cornerRadius * 1.4))
-            filterButton.setImage(filterImage.withTintColor(.white), for: .normal)
+            filterButton.setImage(filterImage.withTintColor(UIColor.FilterButton.tint), for: .normal)
         }
         
         filterButton.addTarget(self, action: #selector(openFilter), for: .touchUpInside)
@@ -71,7 +71,7 @@ class TableViewUniversities: UIViewController {
     private func setupNavigationItem() {
         searchTitle.text = "Uni"
         searchTitle.textAlignment = .center
-        searchTitle.textColor = .white
+        searchTitle.textColor = UIColor.Text.common
         searchTitle.font = UIFont(name: "Georgia", size: 24)
         
         navigationItem.titleView = searchTitle
@@ -79,7 +79,7 @@ class TableViewUniversities: UIViewController {
     
     private func setupSearchButton() {
         let searchButton = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(search))
-        searchButton.tintColor = .white
+        searchButton.tintColor = UIColor.NavigationController.item
         navigationItem.rightBarButtonItem = searchButton
     }
     
@@ -94,7 +94,7 @@ class TableViewUniversities: UIViewController {
         searchField.placeholder = "Введите университет"
         
         if let textField = searchField.value(forKey: "searchField") as? UITextField {
-            textField.textColor = .white
+            textField.textColor = UIColor.Text.common
         }
         
         searchField.delegate = self
@@ -123,6 +123,14 @@ class TableViewUniversities: UIViewController {
         self.setNeedsStatusBarAppearanceUpdate()
         filterButton.isHidden = false
         filterButton.isEnabled = true
+        
+        setupNavigationItem()
+        setupSearchButton()
+        setupEndSearchingButton()
+        setupSearchField()
+        setupFilterButton()
+        setupTable()
+        tableView.reloadData()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -131,16 +139,7 @@ class TableViewUniversities: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        setupNavigationItem()
-        setupSearchButton()
-        setupEndSearchingButton()
-        setupSearchField()
-        
-        setupFilterButton()
-        
         reloadData()
-        setupTable()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -160,9 +159,12 @@ class TableViewUniversities: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         
-        tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = 80
+        tableView.frame = view.frame
+        tableView.center = view.center
         
+        tableView.backgroundColor = UIColor.TableView.background
+        
+        tableView.separatorColor = UIColor.TableView.separator
         tableView.separatorInset = .zero
     }
     
@@ -177,7 +179,7 @@ class TableViewUniversities: UIViewController {
         navigationItem.rightBarButtonItem = nil
         
         navigationItem.leftBarButtonItem?.isEnabled = true
-        navigationItem.leftBarButtonItem?.tintColor = .white
+        navigationItem.leftBarButtonItem?.tintColor = UIColor.NavigationController.item
     }
     
     @objc private func endSearching() {
@@ -223,30 +225,16 @@ extension TableViewUniversities :  SkeletonTableViewDataSource, SkeletonTableVie
             navigationController?.pushViewController(viewController, animated: true)
     }
     
-//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//        let label = UILabel()
-//
-//        label.numberOfLines = 0
-//        label.textAlignment = .left
-//        label.textColor = .black
-//        label.backgroundColor = view.backgroundColor
-//
-//        label.font = UIFont(name: "AvenirNext-Regular", size: 30)!
-//        label.text = "Выберите университет"
-//
-//        return label
-//    }
-//
-//    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-//        return 150
-//    }
-    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        (UIApplication.shared.delegate as! AppDelegate).changeTheme(traitCollection: traitCollection, currentController: self, tabBarController: tabBarController, navigationController: navigationController)
+        
+    }
 }
 
 extension TableViewUniversities: UISearchBarDelegate {
     
     // called when text changes (including clear)
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String){
         if (searchText == "") {
             Manager.shared.UFD = Manager.shared.dataUFD
         } else {
@@ -260,10 +248,3 @@ extension TableViewUniversities: UISearchBarDelegate {
         tableView.reloadData()
     }
 }
-
-
-
-
-
-//        db.collection("Universities").addDocument(data: ["name":"МГТУ","dormitory": true]).collection("МГТУfaculties").addDocument(data: ["name":"РК","minPoints": 150])
-//        db.collection("Universities").document("6CvTvBl7wcwcMrUW1d6C").collection("МГТУfaculties").addDocument(data: ["name":"ИУ","minPoints": 98])

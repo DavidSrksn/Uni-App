@@ -15,12 +15,10 @@ final class UniversityCell: UITableViewCell {
     var universityLabel = UILabel()
     
     func setupUniversityCell(university: University){
-        let selectedCellview = UIView()
-        selectedCellview.backgroundColor = UIColor(red: 28/256, green: 28/256, blue: 30/256, alpha: 1)
-        self.selectedBackgroundView = selectedCellview
-        
         setupUniversityLabel(university: university)
         setupUniversityImage(university: university)
+        
+        self.backgroundColor = UIColor.TableView.Cell.defaultBackground
     }
     
     func setupUniversityImage(university: University){
@@ -58,7 +56,7 @@ final class UniversityCell: UITableViewCell {
         
         universityLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
         
-        universityLabel.textColor = .black
+        universityLabel.textColor = UIColor.Text.common
         universityLabel.layer.cornerRadius = 15
         universityLabel.font = UIFont(name: "AvenirNext-Regular", size: 20)
         universityLabel.textAlignment = .center
@@ -71,8 +69,13 @@ final class UniversityCell: UITableViewCell {
           
       }
 
-      override func setSelected(_ selected: Bool, animated: Bool) {
-          super.setSelected(false, animated: false)
-      }
-    
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(false, animated: false)
+        if selected{
+            let selectedCellview = UIView()
+            selectedCellview.backgroundColor = UIColor.TableView.Cell.choosedBackground
+            self.selectedBackgroundView = selectedCellview
+            universityLabel.textColor = UIColor.TableView.Cell.choosedAttributes
+        }
+    }
 }

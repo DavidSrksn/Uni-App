@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # University
 Technopark project
 
@@ -21,3 +22,7 @@ Technopark project
 ![План приложения](https://user-images.githubusercontent.com/47701346/66225849-2a688100-e6e2-11e9-9f81-a62a153e938f.jpg)
 ![План приложения2](https://user-images.githubusercontent.com/47701346/66225865-2e949e80-e6e2-11e9-99a4-80835ad5cb72.jpg)
 
+=======
+# Uni-App
+Solo continuation of University repository  
+>>>>>>> Initial commit

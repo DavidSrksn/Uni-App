@@ -308,7 +308,7 @@ class DropdownCell: UITableViewCell{
                 if followersNumber != 0{
                     textColor = .black
                 }else{
-                    textColor = .red
+                    textColor = .black
                 }
                 
                 let atributedString =  NSMutableAttributedString(string: "Подписчиков: "+"\(message)")

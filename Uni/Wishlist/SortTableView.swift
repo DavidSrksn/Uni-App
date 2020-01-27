@@ -15,9 +15,9 @@ class SortTableView: UITableView {
     var choosedSortType: Int?
  
     func setupTable(){
-        tableView.backgroundColor = .white
+        tableView.backgroundColor = UIColor.TableView.background
         tableView.separatorStyle = .singleLine
-        tableView.separatorColor = .black
+        tableView.separatorColor = UIColor.TableView.separator
     }
 
 }

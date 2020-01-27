@@ -14,10 +14,7 @@ final class FacultyCell: UITableViewCell {
     var facultyFullNameLabel = UILabel()
     
     func setFacultyCell(faculty: Faculty){
-        let selectedCellview = UIView()
-        selectedCellview.backgroundColor = UIColor(red: 28/256, green: 28/256, blue: 30/256, alpha: 1)
-        self.selectedBackgroundView = selectedCellview
-        
+        self.backgroundColor = UIColor.TableView.background
         setupFacultyLabel(faculty: faculty)
         setupFacultyFullNameLabel(faculty: faculty)
        }
@@ -36,6 +33,7 @@ final class FacultyCell: UITableViewCell {
         facultyLabel.textAlignment = .center
         facultyLabel.font = UIFont(name: "AvenirNext-Bold", size: 20)!
         
+        facultyLabel.textColor = UIColor.Text.common
         if faculty.name != ""{
         self.facultyLabel.text = faculty.name
         }else {
@@ -59,6 +57,7 @@ final class FacultyCell: UITableViewCell {
         facultyFullNameLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
         facultyFullNameLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor, constant: self.frame.width - facultyLabel.bounds.width - 15).isActive = true
                 
+        facultyFullNameLabel.textColor = UIColor.Text.common
         facultyFullNameLabel.font = UIFont(name: "AvenirNext-Regular", size: 17)!
         self.facultyFullNameLabel.text = faculty.fullName
     }
@@ -70,7 +69,12 @@ final class FacultyCell: UITableViewCell {
        }
 
        override func setSelected(_ selected: Bool, animated: Bool) {
-           super.setSelected(selected, animated: animated)
-
-       }
+        super.setSelected(selected, animated: animated)
+        let selectedCellview = UIView()
+        selectedCellview.backgroundColor = UIColor.TableView.Cell.choosedBackground
+        self.selectedBackgroundView = selectedCellview
+        facultyLabel.textColor = UIColor.TableView.Cell.choosedAttributes
+        facultyFullNameLabel.textColor = UIColor.TableView.Cell.choosedAttributes
+    }
+    
 }
