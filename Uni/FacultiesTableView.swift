@@ -7,8 +7,6 @@
 //
 
 import UIKit
-import Firebase
-import SkeletonView
 
 final class FacultiesTableView: UIViewController {
     
@@ -27,31 +25,36 @@ final class FacultiesTableView: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        if (Manager.shared.UFD[Manager.shared.choosed[0] as! University]?.keys.count)! == 0 {
+            NetworkManager.shared.loadFaculties(minPoints:Manager.shared.filterSettings.minPoint,subjects: Manager.shared.filterSettings.subjects, completion: { [weak self] in
+                DispatchQueue.main.async{
+                    Shimmer.shared.stopShimmer()
+                    self?.tableView.reloadData()
+                }
+            })
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        tableView.reloadData()
         setupUniversityLabel()
         setupImage()
         setupMapButton()
         setupDromitoryLabel()
         setupMilitaryDepartmentLabel()
-        
-        if (Manager.shared.UFD[Manager.shared.choosed[0] as! University]?.keys.count)! == 0 {
-            view.showAnimatedGradientSkeleton()
-            NetworkManager.shared.loadFaculties(minPoints:Manager.shared.filterSettings.minPoint,subjects: Manager.shared.filterSettings.subjects, completion: { [weak self] in
-                DispatchQueue.main.async{
-                    self?.tableView.reloadData()
-                    self?.view.hideSkeleton()
-                }
-            })
-        }
         setupView()
         setupTable()
     }
-
+    override func viewDidAppear(_ animated: Bool) {
+        Shimmer.shared.startShimmer(view: self.view, screen: String(describing: type(of: self)))
+    }
+    
     func setupView(){
         view.backgroundColor = UIColor.View.background
     }
     
     func setupDromitoryLabel(){
-//        dormitoryLabel.isSkeletonable = true
         
         let attributedString = NSMutableAttributedString(string: "Общежитие  ")
         
@@ -75,6 +78,8 @@ final class FacultiesTableView: UIViewController {
 
         attributedString.append(image1String)
         
+        dormitoryLabel.isShimmering = true
+        
         view.addSubview(dormitoryLabel)
         
         dormitoryLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -91,7 +96,6 @@ final class FacultiesTableView: UIViewController {
     }
     
     func setupMilitaryDepartmentLabel(){
-//        militaryDepartmentLabel.isSkeletonable = true
         
         let attributedString = NSMutableAttributedString(string: "Военная кафедра   ")
         
@@ -115,6 +119,8 @@ final class FacultiesTableView: UIViewController {
 
         attributedString.append(image1String)
         
+        militaryDepartmentLabel.isShimmering = true
+        
         view.addSubview(militaryDepartmentLabel)
         
         militaryDepartmentLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -131,7 +137,7 @@ final class FacultiesTableView: UIViewController {
     }
     
     func setupMapButton(){
-        mapButton.isSkeletonable = true
+        mapButton.isShimmering = true
         
         view.addSubview(mapButton)
         
@@ -180,6 +186,8 @@ final class FacultiesTableView: UIViewController {
     }
     
     func setupImage(){
+        universityImage.isShimmering = true
+        
         let image = UIImage(named: "\((Manager.shared.choosed[0] as! University).name).jpg")
         
         universityImage.translatesAutoresizingMaskIntoConstraints = false
@@ -194,6 +202,8 @@ final class FacultiesTableView: UIViewController {
     }
     
     func setupUniversityLabel(){
+        universityLabel.isShimmering = true
+        
         universityLabel.layer.cornerRadius = cornerRadius
         
         universityLabel.textColor = UIColor.Text.common
@@ -212,15 +222,7 @@ final class FacultiesTableView: UIViewController {
     
 }
 
-    extension FacultiesTableView : SkeletonTableViewDelegate,SkeletonTableViewDataSource{
-        
-        func collectionSkeletonView(_ skeletonView: UITableView, numberOfRowsInSection section: Int) -> Int {
-               return 4
-           }
-           
-        func collectionSkeletonView(_ skeletonView: UITableView, cellIdentifierForRowAt indexPath: IndexPath) -> ReusableCellIdentifier{
-            return "FacultyCell"
-        }
+    extension FacultiesTableView: UITableViewDelegate, UITableViewDataSource{
        
         func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
             let backGroundview = UIView()
@@ -237,7 +239,11 @@ final class FacultiesTableView: UIViewController {
         }
         
         func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-            return (Manager.shared.UFD[Manager.shared.choosed[0] as! University]?.keys.count)!
+            if (Manager.shared.UFD[Manager.shared.choosed[0] as! University]?.keys.count)! == 0{
+                return FakeData.cellsNumber
+            }else{
+                return (Manager.shared.UFD[Manager.shared.choosed[0] as! University]?.keys.count)!
+            }
         }
 
         
@@ -249,9 +255,10 @@ final class FacultiesTableView: UIViewController {
             return 70
         }
         func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-            let faculty = Array((Manager.shared.UFD[Manager.shared.choosed[0] as! University]?.keys)!)[indexPath.row]
+            let faculty = FakeData.faculty
+            // Array((Manager.shared.UFD[Manager.shared.choosed[0] as! University]?.keys))[indexPath.row] ??
             let cell = tableView.dequeueReusableCell(withIdentifier: "FacultyCell") as! FacultyCell
-            cell.setFacultyCell(faculty: faculty!)
+            cell.setFacultyCell(faculty: faculty)
             return cell
         }
 

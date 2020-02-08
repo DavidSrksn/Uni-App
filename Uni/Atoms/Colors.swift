@@ -14,18 +14,6 @@ enum ColorStyleMode: String {
     case light = "light"
 }
 
-// MARK: StatusBarStyle
-extension UIStatusBarStyle{
-        static var statusBar: UIStatusBarStyle {
-            switch UIColor.interfaceStyle {
-            case .dark:
-                return .lightContent
-            case .light:
-                return .darkContent
-            }
-        }
-}
-
 
 extension UIColor{
     static var interfaceStyle: ColorStyleMode =  {
@@ -38,6 +26,18 @@ extension UIColor{
         }
         return .light
     }()
+}
+
+// MARK: StatusBarStyle
+extension UIStatusBarStyle{
+        static var statusBar: UIStatusBarStyle {
+            switch UIColor.interfaceStyle {
+            case .dark:
+                return .lightContent
+            case .light:
+                return .darkContent
+            }
+        }
 }
 
 // MARK: Custom Default Colors
@@ -133,6 +133,15 @@ extension UIColor{
                 return .white
             }
         }
+        
+        static var tint: UIColor{
+            switch UIColor.interfaceStyle {
+            case .dark:
+                return .black
+            case .light:
+                return UIColor.white.darker
+            }
+        }
     }
 }
 // MARK: Tableview (Cell, Separator)
@@ -166,7 +175,16 @@ extension UIColor{
         }
         
         enum Cell {
-            static var defaultBackground: UIColor {
+            static var tintedBackground: UIColor {
+                switch UIColor.interfaceStyle {
+                case .dark:
+                    return .black
+                case .light:
+                    return UIColor.white.darker
+                }
+            }
+            
+            static var defaultBackground: UIColor { // дефолтный цвет ячейки
                 switch UIColor.interfaceStyle {
                 case .dark:
                     return UIColor.Customs.lightBlack
@@ -175,7 +193,7 @@ extension UIColor{
                 }
             }
             
-            static var choosedBackground: UIColor {
+            static var choosedBackground: UIColor { // когда ячейка выбрана
                 switch UIColor.interfaceStyle {
                 case .dark:
                     return .black
@@ -230,6 +248,64 @@ extension UIColor{
         case .light:
             return .lightGray
         }
+    }
+}
+
+extension UIColor{
+    struct Button {
+                
+        var background = { (type: TypeButton)-> UIColor in
+                switch UIColor.interfaceStyle {
+                case .light:
+                    
+                    switch type {
+                    case .delete:
+                        return .white
+                    case .filter:
+                       return .lightGray
+                    case .map:
+                        return UIColor.Customs.blue
+                    }
+                    
+                case .dark:
+                    
+                    switch type {
+                    case .delete:
+                        return .white
+                    case .filter:
+                        return UIColor.Customs.lightBlack
+                    case .map:
+                        return UIColor.Customs.blue.lighter
+                    }
+                }
+        }
+        
+        var text = { (type: TypeButton)-> UIColor in
+                switch UIColor.interfaceStyle {
+                case .light:
+                    
+                    switch type {
+                    case .delete:
+                        return .white
+                    case .filter:
+                       return UIColor.Customs.lightBlack
+                    case .map:
+                        return UIColor.Customs.lightBlack
+                    }
+                    
+                case .dark:
+                    
+                    switch type {
+                    case .delete:
+                        return .white
+                    case .filter:
+                        return .darkGray
+                    case .map:
+                       return UIColor.Customs.lightBlack
+                    }
+                }
+        }
+        
     }
 }
 
@@ -288,4 +364,41 @@ extension UIColor{
         }
         
     }
+}
+
+// MARK: Shimmer
+extension UIColor{
+    enum Shimmer{
+        static var gradient: UIColor {
+            switch UIColor.interfaceStyle {
+            case .dark:
+                return .white
+            case .light:
+                return UIColor.white.darker
+            }
+        }
+        
+        static var background: UIColor {
+            switch UIColor.interfaceStyle {
+            case .dark:
+                return UIColor.Customs.lightBlack
+            case .light:
+                return UIColor.gray.lighter
+            }
+        }
+        
+    }
+}
+
+// MARK: Loader
+extension UIColor{
+        static var loaderIndicator: UIColor {
+            switch UIColor.interfaceStyle {
+            case .dark:
+                return .white
+            case .light:
+                return UIColor.Customs.lightBlack
+            }
+        }
+    
 }

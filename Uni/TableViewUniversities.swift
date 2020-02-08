@@ -30,7 +30,7 @@ extension UIImage {
 
 class TableViewUniversities: UIViewController {
 
-    @IBOutlet weak var tableView: UITableView!
+    let tableView = UITableView()
     
     var warning = UILabel()
             
@@ -48,6 +48,9 @@ class TableViewUniversities: UIViewController {
     private func setupFilterButton() {
         self.view.addSubview(filterButton)
         
+        filterButton.setup(type: .filter)
+        view.bringSubviewToFront(filterButton)
+        
         filterButton.frame = CGRect(origin: CGPoint(x: self.view.frame.width - 100, y: self.view.frame.height - 180), size: CGSize(width: 80, height: 80))
         filterButton.layer.cornerRadius = filterButton.frame.width / 2
         
@@ -55,9 +58,7 @@ class TableViewUniversities: UIViewController {
         filterButton.layer.shadowOffset = CGSize(width: 0, height: 2)
         filterButton.layer.shadowOpacity = 1.0
         filterButton.layer.shadowRadius = filterButton.layer.cornerRadius * 1.5
-        
-        filterButton.backgroundColor = UIColor.FilterButton.background
-        
+            
         if var filterImage = UIImage(named: "FirstLaunch Image1") {
             filterImage.withRenderingMode(.alwaysTemplate)
             filterButton.contentMode = .scaleAspectFit
@@ -66,6 +67,10 @@ class TableViewUniversities: UIViewController {
         }
         
         filterButton.addTarget(self, action: #selector(openFilter), for: .touchUpInside)
+    }
+    
+    func setupView(){
+        view.backgroundColor = UIColor.View.background
     }
     
     private func setupNavigationItem() {
@@ -124,12 +129,13 @@ class TableViewUniversities: UIViewController {
         filterButton.isHidden = false
         filterButton.isEnabled = true
         
+        setupView()
         setupNavigationItem()
         setupSearchButton()
         setupEndSearchingButton()
         setupSearchField()
-        setupFilterButton()
         setupTable()
+        setupFilterButton()
         tableView.reloadData()
     }
     
@@ -150,6 +156,8 @@ class TableViewUniversities: UIViewController {
     }
   
     func setupTable(){
+        view.addSubview(tableView)
+        
         self.title = "Uni"
         
         self.tabBarController?.tabBar.items?[0].title = NSLocalizedString("Home", comment: "")
@@ -212,7 +220,7 @@ extension TableViewUniversities :  SkeletonTableViewDataSource, SkeletonTableVie
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let university = Array(Manager.shared.UFD.keys)[indexPath.row]
-        let cell = tableView.dequeueReusableCell(withIdentifier: "UniversityCell") as! UniversityCell
+        let cell =  UniversityCell()
         cell.setupUniversityCell(university: university)
         return cell
     }

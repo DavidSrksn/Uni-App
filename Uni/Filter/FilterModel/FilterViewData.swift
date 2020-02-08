@@ -2,13 +2,14 @@ import UIKit
 
 struct FilterViewData {
     let FilterViewColor = UIColor.View.background
-    let addSubjectColor = UIColor.View.background
-    let FilterDropDownColor = UIColor.black
+    let addSubjectColor = UIColor.View.tint
+    let addSubjectTextColor = UIColor.Text.common
+    let FilterDropDownColor = UIColor.alizarin
     
-    let countryLabelColor = UIColor.View.background
+    let countryLabelColor = UIColor.View.tint
     let countryLabelTextColor = UIColor.Text.common
     
-    let subjectCellColor = UIColor.TableView.Cell.defaultBackground
+    let subjectCellColor = UIColor.TableView.Cell.tintedBackground
     let subjectCellTextColor = UIColor.Text.common
     
     let sliderColor = UIColor.slider

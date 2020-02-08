@@ -176,7 +176,7 @@ final class Manager {
             }
         }
         NetworkManager.shared.changeFollower(occasion: "add", universityname: (Manager.shared.choosed[0] as! University).name, facultyFullName: (Manager.shared.choosed[1] as! Faculty).fullName, departmentFullName: (Manager.shared.choosed[2] as! Department).fullName)
-        print("fileURL = \(self.realm.configuration.fileURL)")
+        print("fileURL = \(String(describing: self.realm.configuration.fileURL))")
         sender.setImage(UIImage(systemName: "star.fill"), for: .normal)
     }
     

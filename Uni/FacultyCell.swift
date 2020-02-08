@@ -21,6 +21,8 @@ final class FacultyCell: UITableViewCell {
        
        
     func setupFacultyLabel(faculty: Faculty) {
+        facultyLabel.isShimmering = true
+        
         self.addSubview(facultyLabel)
         
         facultyLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -43,6 +45,8 @@ final class FacultyCell: UITableViewCell {
     }
     
     func setupFacultyFullNameLabel(faculty: Faculty){
+        facultyFullNameLabel.isShimmering = true
+        
         self.addSubview(facultyFullNameLabel)
         
         facultyFullNameLabel.numberOfLines = 0

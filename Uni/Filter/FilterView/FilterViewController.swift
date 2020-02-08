@@ -228,6 +228,7 @@ extension FilterViewController {
         countryLabel.layer.cornerRadius = dataView.cornerRadius
         countryLabel.backgroundColor = dataView.countryLabelColor
         countryLabel.textColor = dataView.countryLabelTextColor
+        
         countryLabel.textAlignment = .center
         countryLabel.text = "Город"
         
@@ -265,6 +266,7 @@ extension FilterViewController {
         addSubject.layer.cornerRadius = dataView.cornerRadius
         addSubject.setTitle("Добавить предмет", for: .normal)
         addSubject.backgroundColor = dataView.addSubjectColor
+        addSubject.setTitleColor(dataView.addSubjectTextColor, for: .normal)
         
         
         addSubject.addTarget(self, action: #selector(pushSubject), for: .touchUpInside)
@@ -324,7 +326,9 @@ extension FilterViewController {
         pointsTextField.layer.borderWidth = 1
         
         pointsTextField.textAlignment = .center
-        pointsTextField.placeholder = " Минимальный балл "
+        pointsTextField.textColor = UIColor.Text.common
+        pointsTextField.attributedPlaceholder = NSAttributedString(string: " Минимальный балл ",
+                                                                   attributes: [NSAttributedString.Key.foregroundColor: UIColor.Text.common])
         pointsTextField.contentHorizontalAlignment = .center
         
         pointsTextField.delegate = self
@@ -347,6 +351,7 @@ extension FilterViewController {
         
         militaryLabel.frame = CGRect(x: 0, y: 0, width: 0, height: 0)
         militaryLabel.text = "Военная Кафедра"
+        militaryLabel.textColor = UIColor.Text.common
         
         militaryLabel.translatesAutoresizingMaskIntoConstraints = false
 
@@ -376,6 +381,7 @@ extension FilterViewController {
     private func setupCampusLabel() {
         campusLabel.frame = CGRect(x: 0, y: 0, width: 0, height: 0)
         campusLabel.text = "Общежитие"
+        campusLabel.textColor = UIColor.Text.common
         
         contentView.addSubview(campusLabel)
         
@@ -415,8 +421,9 @@ extension FilterViewController: UIPickerViewDelegate, UIPickerViewDataSource {
         return dataSourceCountry.count
     }
     
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return dataSourceCountry[row]
+    func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
+        let attributedString = NSAttributedString(string: dataSourceCountry[row], attributes: [NSAttributedString.Key.foregroundColor : UIColor.Text.common])
+        return attributedString
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
@@ -455,7 +462,7 @@ extension FilterViewController: UITableViewDataSource {
         
         cell.backgroundColor = dataView.subjectCellColor
         cell.layer.cornerRadius = dataView.cornerRadius
-        cell.textLabel?.textColor = dataView.subjectCellTextColor
+        cell.textLabel?.textColor = UIColor.Text.common
         
         let dataIndex = indexPath.row - 1
         
@@ -499,6 +506,8 @@ extension FilterViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.backgroundColor = UIColor.TableView.background
+        
         let dataIndex = indexPath.row - 1
         let curTitle = subjectTableData[indexPath.section].title
         
