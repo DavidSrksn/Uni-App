@@ -13,6 +13,22 @@ import CoreData
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
+    func changeTheme(traitCollection: UITraitCollection , currentController: UIViewController, tabBarController: UITabBarController?, navigationController: UINavigationController?){
+        if traitCollection.userInterfaceStyle == .dark{
+            UIColor.interfaceStyle = .dark
+            UserDefaults.standard.set("dark", forKey: "interfaceStyle")
+        }else {
+            UIColor.interfaceStyle = .light
+            UserDefaults.standard.set("light", forKey: "interfaceStyle")
+        }
+        currentController.viewWillAppear(false)
+        if let tabBarController = tabBarController {
+            tabBarController.viewDidLoad()
+        }
+        if let navigationController = navigationController{
+            navigationController.viewDidLoad()
+        }
+    }
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
   

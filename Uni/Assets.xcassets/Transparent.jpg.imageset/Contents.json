@@ -2,13 +2,8 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "Pwbuz-1.png",
-      "scale" : "1x"
-    },
-    {
-      "idiom" : "universal",
       "filename" : "Pwbuz.png",
-      "scale" : "2x"
+      "scale" : "1x"
     },
     {
       "idiom" : "universal",
