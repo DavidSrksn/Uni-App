@@ -28,14 +28,14 @@ final class FacultiesTableView: UIViewController {
 
         if (Manager.shared.UFD[Manager.shared.choosed[0] as! University]?.keys.count)! == 0 {
             NetworkManager.shared.loadFaculties(minPoints:Manager.shared.filterSettings.minPoint,subjects: Manager.shared.filterSettings.subjects, completion: { [weak self] in
+                self?.stopShimmer()
                 DispatchQueue.main.async{
-                    Shimmer.shared.stopShimmer()
                     self?.tableView.reloadData()
                 }
             })
         }
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         tableView.reloadData()
         setupUniversityLabel()
@@ -46,8 +46,9 @@ final class FacultiesTableView: UIViewController {
         setupView()
         setupTable()
     }
+    
     override func viewDidAppear(_ animated: Bool) {
-        Shimmer.shared.startShimmer(view: self.view, screen: String(describing: type(of: self)))
+        self.startShimmer()
     }
     
     func setupView(){

@@ -8,52 +8,66 @@
 
 import UIKit
 
-public enum FontStyle: String {
+public enum FontType{
+    case title
+    case regular
+    case description
+}
+
+public enum FontName: String {
     case title = ""
     case regular = " "
 }
 
 
-public enum FontThickness: String {
-    case bold = ""
-    case regular = " "
+public enum FontThickness: String{
+    case bold = "-Bold"
+    case regular = "-Regular"
 }
 
-//extension UIFont{
-//    public func setup(style: FontStyle, thickness: FontThickness) -> UIFont{
-//        let tempFont: UIFont
-//        
-//        tempFont = UIFont(name: setupFontStyle(style: style),
-//                          size: )
-//        
-//        return tempFont
+public enum FontSize: CGFloat {
+    case title = 17
+    case regular = 15
+    case description = 12
+}
+
+extension UIFont{
+    
+    public func configure(name: FontName, thickness: FontThickness, size: FontSize) -> UIFont{
+        let fontName: String = name.rawValue
+        let thickness: String = thickness.rawValue
+        let size: CGFloat = size.rawValue
+        
+        if let font = UIFont(name: fontName + thickness, size: size){
+            return font
+        }else {
+            return UIFont(name: "TimesNewRoman", size: 1)!
+            
+        }
+    }
+    
+//    public func setup(style: FontType){
+//        switch style {
+//        case .title:
+//            return configure(name:"AvenirNext-Regular", thickness: , size: )
+//        case .regular:
+//            return configure(name: , thickness: , size: )
+//        case .description:
+//            return configure(name: , thickness: , size: )
+//        }
 //    }
-//    
-//    private func setupFontStyle(style: FontStyle) -> String{
-//        let fontName: String = style.rawValue
-//        if let font = UIFont(name: fontName, size: 1){
-//            return font.fontName
-//        }else { return "TimesNewRoman"}
-//    }
-//    
-//    private func setupFontThickness(thickness: FontThickness) -> CGFloat{
-//        let fontName: String = thickness.rawValue
-//        if let font = UIFont(name: fontName, size: 1){
-//            return font.fontName
-//        }else { return "TimesNewRoman"}
-//    }
-//    
-//}
-//
-//
-//
+    
+}
+
+
+
 //extension UIFont{
 //    static var font = { ( style: FontStyle,  thickness: FontThickness) -> UIFont in
 //        let tempFont: UIFont
-//        
+//
 //        tempFont = UIFont(name: setupFontStyle(style: style),
 //                          size: )
-//        
+//
 //        return tempFont
 //    }
 //}

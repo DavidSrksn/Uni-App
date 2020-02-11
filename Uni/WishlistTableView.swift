@@ -40,6 +40,7 @@ final class WishlistTableView: UIViewController {
             self.deleteMechanic(choosedRow: self.button_tag, warningOcassionNumber: 0)
             self.tableView.reloadData()
         })
+        
         Manager.shared.workItem.notify(queue: .main) {
         }
         

@@ -25,5 +25,6 @@ extension UIButton{
     public func setup(type: TypeButton){
         self.backgroundColor = ButtonConfigurator.colorConfigurator.background(type)
         self.titleLabel?.textColor = ButtonConfigurator.colorConfigurator.text(type)
+        
     }
 }
