@@ -23,12 +23,38 @@ extension UIView{
     }
 }
 
+extension UIViewController{
+    
+    public func startShimmer( ){
+        Shimmer.shared.startShimmer(view: self.view, screen: String(describing: type(of: self)))
+    }
+    
+    public func stopShimmer(){
+        Shimmer.shared.stopShimmer()
+    }
+    
+    public func prepareShimer(){
+        Shimmer.shared.prepareShimmer(view: self.view)
+    }
+}
+
+enum Status{
+    case notStarted
+    case isstarted
+    case shouldBeStopped
+}
+
+enum Action{
+    case start
+    case stop
+    case reset
+}
 
 struct FakeData {
     static let cellsNumber = 5
-    
+
     static let faculty = Faculty(name: "  ", fullName: "  ")
-    
+
 }
 
 
@@ -38,13 +64,20 @@ final class Shimmer{
     
     static let shared = Shimmer()
     
-    private var shimmeringView = UIView()
-    private var backgroundView = UIView()
+    private let group = DispatchGroup()
+    private let concurrentQueue = DispatchQueue(label: "concurrentQueue", attributes: .concurrent)
+    
+    private var status = Status.notStarted
+    
+    private var preparingView = UIView() // "занавесь", закрывающая views, которые не надо подгружать, но и показывать их сразу некрасиво
+    private var shimmeringViews = UIView()
+    private var backgroundViews = UIView()
     
     private let gradientLayer = CAGradientLayer()
     private let animation = CABasicAnimation(keyPath: "transform.translation.x")
+    private let duration: UInt32 = 1
     
-    private var savedScreens: [String: (UIView,UIView)] = [:]
+    private var savedScreens: [String: (UIView,UIView)] = [:] // экраны на которых уже была анимация сохраняются и заново не "строятся" при повторном открытии
     
     private func setupGradient(superview: UIView){
         
@@ -127,8 +160,43 @@ final class Shimmer{
         }
     }
     
+    private func changeStatus(action: Action){
+        switch action{
+        case .start:
+            switch status{
+            case .notStarted:
+                status = .isstarted
+            case .isstarted:
+                status = .isstarted
+            case .shouldBeStopped:
+                status = .shouldBeStopped
+            }
+        case .stop:
+            switch status{
+            case .notStarted:
+                status = .notStarted
+            case .isstarted:
+                status = .shouldBeStopped
+            case .shouldBeStopped:
+                status = .shouldBeStopped
+            }
+        case .reset:
+            status = .notStarted
+        }
+    }
     
-    func startShimmer(view: UIView,  screen: String){
+    public func prepareShimmer(view: UIView){
+        
+        preparingView.frame = view.frame
+        preparingView.backgroundColor = UIColor.View.background
+        
+        view.addSubview(preparingView)
+    }
+    
+    public func startShimmer(view: UIView,  screen: String){
+        
+        changeStatus(action: .start)
+        
         if !savedScreens.keys.contains(screen){
             setupShimmer(view: view)
             
@@ -138,21 +206,33 @@ final class Shimmer{
         setupGradient(superview:  view)
         setupAnimation(superview: view)
         addShimmer(view: view, screen: screen)
+                
+        if status == .shouldBeStopped{
+            group.leave() // освобождает заглушку в случае вызова стоп раньше стара
+        }
     }
     
     func stopShimmer(){
-        sleep(2)
-        gradientLayer.removeAnimation(forKey: "shimmer")
-        shimmeringView.removeFromSuperview()
-        backgroundView.removeFromSuperview()
-    }
-    
-}
-
-extension UIViewController{
-    
-    public func startShimmering(){
-//        Shimmer.shared.startShimmer(view: <#T##UIView#>, screen: <#T##String#>)
+        changeStatus(action: .stop)
+        
+        concurrentQueue.async {
+            if self.status == .notStarted{
+                self.group.enter() // заглушка в случае когда стоп вызвался раньше старта
+                self.changeStatus(action: .start)
+            }else{
+                sleep(self.duration)
+            }
+            
+            self.group.wait() // для убеждения того что старт уже прошел
+            
+            DispatchQueue.main.async{
+                self.gradientLayer.removeAnimation(forKey: "shimmer")
+                self.shimmeringView.removeFromSuperview()
+                self.backgroundView.removeFromSuperview()
+                self.changeStatus(action: .reset)
+                self.preparingView.removeFromSuperview()
+            }
+        }
     }
 }
 
