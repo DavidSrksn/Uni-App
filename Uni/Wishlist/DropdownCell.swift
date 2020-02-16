@@ -129,11 +129,9 @@ class DropdownCell: UITableViewCell{
         
         minPointsLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        minPointsLabel.font = UIFont(name: "AvenirNext-Regular", size: 15)
-        minPointsLabel.textColor = .black
+        minPointsLabel.fontSetup(name: .regular, thickness: .regular, size: .description)
+        minPointsLabel.textSetup(text: "Проходной балл: \(minPoints)", textAlignment: .left, textColor: .common)
 
-        minPointsLabel.text = "Проходной балл: \(minPoints)"
-        
         minPointsLabel.topAnchor.constraint(equalTo: followers.bottomAnchor, constant: 5).isActive = true
         minPointsLabel.leftAnchor.constraint(equalTo: followers.leftAnchor).isActive = true
         minPointsLabel.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
@@ -180,9 +178,7 @@ class DropdownCell: UITableViewCell{
         departmentNameLabel.centerYAnchor.constraint(equalTo: openView.centerYAnchor).isActive = true
         
         departmentNameLabel.numberOfLines = 0
-        departmentNameLabel.textAlignment = .center
-        departmentNameLabel.text = departmentFullName
-        departmentNameLabel.textColor = UIColor.white
+        departmentNameLabel.textSetup(text: departmentFullName, textAlignment: .center, textColor: .inverted)
     }
     
     func setOpenView(cell: UITableViewCell){
@@ -210,23 +206,17 @@ class DropdownCell: UITableViewCell{
         universityName.heightAnchor.constraint(equalToConstant: 40).isActive = true
         universityName.centerYAnchor.constraint(equalTo: facultyFullNameLabel.centerYAnchor).isActive = true
         
-        universityName.textAlignment = .center
-        universityName.font = UIFont(name: "AvenirNext-Regular", size: 15)
-        universityName.textColor = .black
-        
-        universityName.text = universityname
+        universityName.fontSetup(name: .regular, thickness: .regular, size: .description)
+        universityName.textSetup(text: universityname, textAlignment: .center, textColor: .common)
     }
     
     func setupFacultyLabel(facultyFullName: String){
         
         view.addSubview(facultyFullNameLabel)
-        
-        facultyFullNameLabel.font =  UIFont(name: "AvenirNext-Regular", size: 15)
+
         facultyFullNameLabel.numberOfLines = 0
-        facultyFullNameLabel.textColor = .black
-        facultyFullNameLabel.textAlignment = .center
-        
-        facultyFullNameLabel.text = facultyFullName
+        facultyFullNameLabel.textSetup(text: facultyFullName, textAlignment: .center, textColor: .common)
+        facultyFullNameLabel.fontSetup(name: .regular, thickness: .regular, size: .description)
         
         facultyFullNameLabel.translatesAutoresizingMaskIntoConstraints = false
         
@@ -244,9 +234,9 @@ class DropdownCell: UITableViewCell{
     func setMapButton() {
         mapButtonOutlet.layer.cornerRadius = 5
         mapButtonOutlet.backgroundColor = UIColor(red: 106/256, green: 166/256, blue: 211/256, alpha: 1)
-        mapButtonOutlet.setTitle("Построить маршрут", for: .normal)
-        mapButtonOutlet.setTitleColor(.black, for: .normal)
-        mapButtonOutlet.titleLabel?.font = UIFont(name: "AvenirNext-Regular", size: 15)
+
+        mapButtonOutlet.titleLabel?.fontSetup(name: .regular, thickness: .regular, size: .description)
+        mapButtonOutlet.titleLabel?.textSetup(text: "Построить маршрут", textAlignment: .center, textColor: .common)
         
         mapButtonOutlet.translatesAutoresizingMaskIntoConstraints = false
         
@@ -259,9 +249,8 @@ class DropdownCell: UITableViewCell{
     func setSubjects(subjects: [String?]) {
         subjectsLabel.backgroundColor = view.backgroundColor
         subjectsLabel.numberOfLines = 5
-        subjectsLabel.font = UIFont(name: "AvenirNext-Regular", size: 15)
-        subjectsLabel.textColor = .black
-        subjectsLabel.text = {(subjects: [String?])->String in
+        
+        let subjectsList = {(subjects: [String?])->String in
             var text: String = "Предметы:"
             for string in  subjects{
                 if string != nil{
@@ -270,7 +259,10 @@ class DropdownCell: UITableViewCell{
             }
             return text
         }(subjects)
-
+        
+        subjectsLabel.textSetup(text: subjectsList, textAlignment: .left, textColor: .common)
+        subjectsLabel.fontSetup(name: .regular, thickness: .regular, size: .description)
+        
         subjectsLabel.translatesAutoresizingMaskIntoConstraints = false
 
         subjectsLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: leftConstraint).isActive = true
@@ -283,7 +275,8 @@ class DropdownCell: UITableViewCell{
     func setFollowersLabel(departmentFullName: String, universityName: String,facultyFullName: String){
         
         followers.backgroundColor = view.backgroundColor
-        followers.font = UIFont(name: "AvenirNext-Regular", size: 15)
+        
+        followers.fontSetup(name: .regular, thickness: .regular, size: .description)
         setFollowersLabelAttributedText(departmentFullName: departmentFullName, universityName: universityName,facultyFullName: facultyFullName)
         
         Manager.shared.notificationCenter.addObserver(forName: NSNotification.Name(rawValue: "Internet Connection Status Changed"), object: .none, queue: .main) { (Notification) in // При первом запуске не выполняет код внутри
@@ -298,37 +291,15 @@ class DropdownCell: UITableViewCell{
     }
     
     func setFollowersLabelAttributedText(departmentFullName: String, universityName: String,facultyFullName: String){
-        var message: String = ""
-        var textColor = UIColor()
-        
         if NetworkReachabilityManager()!.isReachable{
             NetworkManager.shared.listenFollowers(universityName: universityName, facultyFullName: facultyFullName, departmentFullName: departmentFullName, completion: { (followersNumber) in
-                message = String(followersNumber)
-                
-                if followersNumber != 0{
-                    textColor = .black
-                }else{
-                    textColor = .black
-                }
-                
-                let atributedString =  NSMutableAttributedString(string: "Подписчиков: "+"\(message)")
-                
-                let firstAttributes: [NSAttributedString.Key: Any] = [
-                    .foregroundColor: UIColor.black,
-                    .backgroundColor: self.view.backgroundColor!]
-                let secondAttributes: [NSAttributedString.Key: Any] = [
-                    .foregroundColor: textColor,
-                    .backgroundColor: self.view.backgroundColor!]
-                atributedString.addAttributes(firstAttributes, range: NSRange(location: 0, length: 13))
-                atributedString.addAttributes(secondAttributes, range: NSRange(location: 13, length: self.countDigits(number: followersNumber)))
-                
-                self.followers.attributedText = atributedString
+                self.followers.textSetup(text: "Подписчиков: "+"\(followersNumber)", textAlignment: .left, textColor: .common)
             })
         }else{
-            self.followers.text = "Подписчиков: Нет соединения"
+                self.followers.text = "Подписчиков: Нет соединения"
+            }
         }
-    }
-    
+        
     func countDigits(number: Int) -> Int{
         var count = 0
         var tempNumber = number

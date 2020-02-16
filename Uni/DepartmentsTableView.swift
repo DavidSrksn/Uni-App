@@ -110,10 +110,8 @@ final class DepartmentsTableView: UIViewController {
         sortHeader.heightAnchor.constraint(equalToConstant: 60).isActive = true
         
         sortHeader.backgroundColor = UIColor.TableView.headerBackground
-        sortHeader.textColor = UIColor.Text.common
-        sortHeader.text = "Выберите тип сортировки"
-        sortHeader.font = UIFont(name: "AvenirNext-Regular", size: 18)!
-        sortHeader.textAlignment = .center
+        sortHeader.textSetup(text: "Выберите тип сортировки", textAlignment: .center, textColor: .common)
+        sortHeader.fontSetup(name: .regular, thickness: .regular, size: .regular)
         
         UIView.animate(withDuration: 1.5) {
             self.sortHeader.alpha = 1
@@ -168,14 +166,11 @@ extension DepartmentsTableView : UITableViewDataSource,UITableViewDelegate{
         label.layer.masksToBounds = true
         
         label.numberOfLines = 0
-        label.textAlignment = .center
-        label.textColor = UIColor.Text.title
+        label.textSetup(text:"\((Manager.shared.choosed[1] as! Faculty).fullName)", textAlignment: .center, textColor: .inverted)
         label.backgroundColor = UIColor.TableView.headerBackground
         label.alpha = 0.9
-        label.font = UIFont(name: "AvenirNext-Bold", size: 20)!
-        
-        label.text = "\((Manager.shared.choosed[1] as! Faculty).fullName)"
-
+        label.fontSetup(name: .title, thickness: .bold, size: .regular)
+    
         label.layer.cornerRadius = 10
         
         backgroundView.addSubview(label)

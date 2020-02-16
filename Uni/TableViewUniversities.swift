@@ -10,24 +10,6 @@ import UIKit
 import Firebase
 import SkeletonView
 
-
-extension UIImage {
-  func resizeImage(targetSize: CGSize) -> UIImage {
-    let size = self.size
-    let widthRatio  = targetSize.width  / size.width
-    let heightRatio = targetSize.height / size.height
-    let newSize = widthRatio > heightRatio ?  CGSize(width: size.width * heightRatio, height: size.height * heightRatio) : CGSize(width: size.width * widthRatio,  height: size.height * widthRatio)
-    let rect = CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height)
-
-    UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
-    self.draw(in: rect)
-    let newImage = UIGraphicsGetImageFromCurrentImageContext()
-    UIGraphicsEndImageContext()
-
-    return newImage!
-  }
-}
-
 class TableViewUniversities: UIViewController {
 
     let tableView = UITableView()
@@ -48,23 +30,15 @@ class TableViewUniversities: UIViewController {
     private func setupFilterButton() {
         self.view.addSubview(filterButton)
         
-        filterButton.setup(type: .filter)
+        filterButton.setupColors(type: .filter, image: UIImage(named: "FirstLaunch Image1"))
         view.bringSubviewToFront(filterButton)
         
         filterButton.frame = CGRect(origin: CGPoint(x: self.view.frame.width - 100, y: self.view.frame.height - 180), size: CGSize(width: 80, height: 80))
         filterButton.layer.cornerRadius = filterButton.frame.width / 2
         
-        filterButton.layer.shadowColor = UIColor.FilterButton.shadow.cgColor
         filterButton.layer.shadowOffset = CGSize(width: 0, height: 2)
         filterButton.layer.shadowOpacity = 1.0
         filterButton.layer.shadowRadius = filterButton.layer.cornerRadius * 1.5
-            
-        if var filterImage = UIImage(named: "FirstLaunch Image1") {
-            filterImage.withRenderingMode(.alwaysTemplate)
-            filterButton.contentMode = .scaleAspectFit
-            filterImage = filterImage.resizeImage(targetSize: CGSize(width: filterButton.layer.cornerRadius * 1.4 , height: filterButton.layer.cornerRadius * 1.4))
-            filterButton.setImage(filterImage.withTintColor(UIColor.FilterButton.tint), for: .normal)
-        }
         
         filterButton.addTarget(self, action: #selector(openFilter), for: .touchUpInside)
     }
@@ -74,11 +48,8 @@ class TableViewUniversities: UIViewController {
     }
     
     private func setupNavigationItem() {
-        searchTitle.text = "Uni"
-        searchTitle.textAlignment = .center
-        searchTitle.textColor = UIColor.Text.common
-        searchTitle.font = UIFont(name: "Georgia", size: 24)
-        
+        searchTitle.fontSetup(name: .navigationBar, thickness: .regular, size: .title)
+        searchTitle.textSetup(text: "Uni", textAlignment: .center, textColor: .common)
         navigationItem.titleView = searchTitle
     }
     
@@ -157,8 +128,6 @@ class TableViewUniversities: UIViewController {
   
     func setupTable(){
         view.addSubview(tableView)
-        
-        self.title = "Uni"
         
         self.tabBarController?.tabBar.items?[0].title = NSLocalizedString("Home", comment: "")
         tableView.clipsToBounds = true

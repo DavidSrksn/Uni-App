@@ -32,15 +32,13 @@ final class FacultyCell: UITableViewCell {
         facultyLabel.widthAnchor.constraint(equalToConstant: 100).isActive = true
         facultyLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true // Центрирование
 
-        facultyLabel.textAlignment = .center
         facultyLabel.font = UIFont(name: "AvenirNext-Bold", size: 20)!
         
-        facultyLabel.textColor = UIColor.Text.common
         if faculty.name != ""{
-        self.facultyLabel.text = faculty.name
+            facultyLabel.textSetup(text: faculty.name, textAlignment: .center, textColor: .common)
         }else {
             facultyLabel.font = UIFont(name: "AvenirNext-Regular", size: 50)!
-            self.facultyLabel.text = "–"
+            facultyLabel.textSetup(text: "-", textAlignment: .center, textColor: .common)
         }
     }
     
@@ -61,9 +59,8 @@ final class FacultyCell: UITableViewCell {
         facultyFullNameLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
         facultyFullNameLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor, constant: self.frame.width - facultyLabel.bounds.width - 15).isActive = true
                 
-        facultyFullNameLabel.textColor = UIColor.Text.common
+        facultyFullNameLabel.textSetup(text: faculty.fullName, textAlignment: .center, textColor: .common)
         facultyFullNameLabel.font = UIFont(name: "AvenirNext-Regular", size: 17)!
-        self.facultyFullNameLabel.text = faculty.fullName
     }
     
     

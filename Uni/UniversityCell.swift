@@ -56,12 +56,9 @@ final class UniversityCell: UITableViewCell {
         
         universityLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
         
-        universityLabel.textColor = UIColor.Text.common
+        universityLabel.textSetup(text: university.fullName, textAlignment: .center, textColor: .common)
         universityLabel.layer.cornerRadius = 15
-        universityLabel.font = UIFont(name: "AvenirNext-Regular", size: 20)
-        universityLabel.textAlignment = .center
-        self.universityLabel.text = university.fullName
-        
+        universityLabel.fontSetup(name: .regular, thickness: .regular, size: .regular)        
     }
     
       override func awakeFromNib() {

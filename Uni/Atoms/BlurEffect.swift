@@ -10,7 +10,6 @@ import Foundation
 import  UIKit
 
 extension UIBlurEffect.Style{
-    
     static var blurView: UIBlurEffect.Style {
         switch UIColor.interfaceStyle {
         case .dark:
@@ -19,5 +18,4 @@ extension UIBlurEffect.Style{
             return .light
         }
     }
-    
 }
