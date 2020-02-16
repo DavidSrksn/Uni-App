@@ -45,6 +45,7 @@ final class FacultiesTableView: UIViewController {
         setupMilitaryDepartmentLabel()
         setupView()
         setupTable()
+        self.prepareShimer()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -90,10 +91,10 @@ final class FacultiesTableView: UIViewController {
         dormitoryLabel.leftAnchor.constraint(equalTo: mapButton.leftAnchor).isActive = true
         dormitoryLabel.heightAnchor.constraint(equalToConstant: 15).isActive = true
         
-        dormitoryLabel.layer.cornerRadius = dormitoryLabel.bounds.height 
-        dormitoryLabel.font = UIFont(name: "AvenirNext-Regular", size: 15)
-        dormitoryLabel.textColor = UIColor.Text.common
-        dormitoryLabel.attributedText = attributedString
+        dormitoryLabel.layer.cornerRadius = dormitoryLabel.bounds.height
+        
+        dormitoryLabel.fontSetup(name: .regular, thickness: .regular, size: .description)
+        dormitoryLabel.attributedTextSetup(text: attributedString, textAlignment: .left)
     }
     
     func setupMilitaryDepartmentLabel(){
@@ -132,9 +133,9 @@ final class FacultiesTableView: UIViewController {
         militaryDepartmentLabel.heightAnchor.constraint(equalToConstant: 15).isActive = true
         
         militaryDepartmentLabel.layer.cornerRadius = militaryDepartmentLabel.bounds.height
-        militaryDepartmentLabel.font = UIFont(name: "AvenirNext-Regular", size: 15)
-        militaryDepartmentLabel.textColor = UIColor.Text.common
-        militaryDepartmentLabel.attributedText = attributedString
+        
+        militaryDepartmentLabel.fontSetup(name: .regular, thickness: .regular, size: .description)
+        militaryDepartmentLabel.attributedTextSetup(text: attributedString, textAlignment: .left)
     }
     
     func setupMapButton(){
@@ -143,10 +144,11 @@ final class FacultiesTableView: UIViewController {
         view.addSubview(mapButton)
         
         mapButton.layer.cornerRadius = 5
-        mapButton.backgroundColor = UIColor.MapButton.background
-        mapButton.setTitle("Построить маршрут", for: .normal)
-        mapButton.setTitleColor(UIColor.MapButton.text, for: .normal)
-        mapButton.titleLabel?.font = UIFont(name: "AvenirNext-Regular", size: 15)
+        
+        mapButton.setupColors(type: .map, image: nil)
+        
+        mapButton.textSetup(type: .map, textColor: .common)
+        mapButton.titleLabel?.fontSetup(name: .regular, thickness: .regular, size: .description)
         
         mapButton.addTarget(.none, action: #selector(mapButtonAction), for: .touchUpInside)
         
@@ -165,7 +167,7 @@ final class FacultiesTableView: UIViewController {
     func setupTable(){
         self.title = "Факультеты"
         self.navigationController!.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "Georgia", size: 24)!, NSAttributedString.Key.foregroundColor: UIColor.white]
-        
+
         tableView.tableFooterView = UIView.init(frame: .zero)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -207,8 +209,7 @@ final class FacultiesTableView: UIViewController {
         
         universityLabel.layer.cornerRadius = cornerRadius
         
-        universityLabel.textColor = UIColor.Text.common
-        universityLabel.textAlignment = .center
+        universityLabel.textSetup(text:(Manager.shared.choosed[0] as! University).fullName, textAlignment: .center, textColor: .common)
         universityLabel.numberOfLines = 0
         
         universityLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -217,10 +218,7 @@ final class FacultiesTableView: UIViewController {
         universityLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: sideAnchor).isActive = true
         universityLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -sideAnchor).isActive = true
         universityLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 30).isActive = true
-        
-        universityLabel.text = (Manager.shared.choosed[0] as! University).fullName
     }
-    
 }
 
     extension FacultiesTableView: UITableViewDelegate, UITableViewDataSource{

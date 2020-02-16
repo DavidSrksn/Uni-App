@@ -58,7 +58,7 @@ final class DepartmentCell: UITableViewCell {
         subjectsDifferenceLabel.rightAnchor.constraint(equalTo: addToWishlistButtonStatus.leftAnchor).isActive = true
         subjectsDifferenceLabel.heightAnchor.constraint(equalToConstant: 20 ).isActive = true
         
-        subjectsDifferenceLabel.font = UIFont(name: "AvenirNext-Regular", size: 15)!
+        subjectsDifferenceLabel.fontSetup(name: .regular, thickness: .regular, size: .description)
         subjectsDifferenceLabel.attributedText = findDifferenеSubjects(department: department)
     }
     
@@ -124,9 +124,8 @@ final class DepartmentCell: UITableViewCell {
         minPointsLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -5).isActive = true
         minPointsLabel.widthAnchor.constraint(equalToConstant: 170).isActive = true
         
-        minPointsLabel.font = UIFont(name: "AvenirNext-Regular", size: 15)!
-        minPointsLabel.textColor = UIColor.Text.common
-        minPointsLabel.text = "Проходной балл: \(department.minPoints)"
+        minPointsLabel.fontSetup(name: .regular, thickness: .regular, size: .description)
+        minPointsLabel.textSetup(text: "Проходной балл: \(department.minPoints)", textAlignment: .left, textColor: .common)
     }
     
     func setupDepartmentNameLabel(department: Department){
@@ -138,11 +137,8 @@ final class DepartmentCell: UITableViewCell {
         departmentNameLabel.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 5).isActive = true
         departmentNameLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 2).isActive = true
         
-        departmentNameLabel.font = UIFont(name: "AvenirNext-Regular", size: 20)!
-        departmentNameLabel.textAlignment = .center
-        
-        departmentNameLabel.textColor = UIColor.Text.common
-        departmentNameLabel.text = department.name
+        departmentNameLabel.fontSetup(name: .regular, thickness: .regular, size: .regular)
+        departmentNameLabel.textSetup(text: department.name, textAlignment: .center, textColor: .common)
         
     }
     
@@ -157,12 +153,9 @@ final class DepartmentCell: UITableViewCell {
         followersLabel.widthAnchor.constraint(equalTo: addToWishlistButtonStatus.widthAnchor).isActive = true
         followersLabel.centerXAnchor.constraint(equalTo: addToWishlistButtonStatus.centerXAnchor).isActive = true
         
-        followersLabel.font = UIFont(name: "AvenirNext-Regular", size: 15)!
-        followersLabel.textAlignment = .center
-        followersLabel.textColor = UIColor.Text.common
-        
-        followersLabel.text = "\(department.followers)"
-        
+        followersLabel.fontSetup(name: .regular, thickness: .regular, size: .description)
+        followersLabel.textSetup(text: "\(department.followers)", textAlignment: .center, textColor: .common)
+                
         NetworkManager.shared.listenFollowers(universityName: (Manager.shared.choosed[0] as? University)!.name, facultyFullName: (Manager.shared.choosed[1] as? Faculty)!.fullName, departmentFullName: department.fullName) { (followers) in
             self.followersLabel.text = "\(followers)"
         }
@@ -180,11 +173,8 @@ final class DepartmentCell: UITableViewCell {
 //        departmentNameLabel.centerYAnchor.constraint(equalTo: departmentFullNameLabel.centerYAnchor).isActive = true // Ровняем  по высоте (для удобства)
         
         departmentFullNameLabel.numberOfLines = 0
-        departmentFullNameLabel.font = UIFont(name: "AvenirNext-Regular", size: 18)!
-        departmentFullNameLabel.textColor = UIColor.Text.common
-        departmentFullNameLabel.textAlignment = .center
-        departmentFullNameLabel.text = department.fullName
-
+        departmentFullNameLabel.fontSetup(name: .regular, thickness: .regular, size: .regular)
+        departmentFullNameLabel.textSetup(text: department.fullName, textAlignment: .center, textColor: .common)
     }
     
     func setupAddToWishlistButton(department: Department) {
@@ -197,7 +187,7 @@ final class DepartmentCell: UITableViewCell {
         addToWishlistButtonStatus.widthAnchor.constraint(equalToConstant: 40).isActive = true
         addToWishlistButtonStatus.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: 0).isActive = true
         
-        addToWishlistButtonStatus.tintColor = UIColor.AddToWishlistButtonTint
+        addToWishlistButtonStatus.tintColor = .black
         
         if !Manager.shared.departmentStatus(department: department){
             let origImage = UIImage(systemName: "star.fill")

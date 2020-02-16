@@ -26,17 +26,16 @@ class SortCell: UITableViewCell {
     }
     
     func setCell(index: Int, choosedTypeIndex: Int?){
-        setupSortType()
+        setupSortType(index: index)
         setupChoosedView(choosedTypeIndex: choosedTypeIndex, index: index)
-        self.sortTypeLabel.text = Sort.Occasions.allCases[index].rawValue
     }
     
-    func setupSortType(){
+    func setupSortType(index: Int){
         self.contentView.addSubview(sortTypeLabel)
         self.backgroundColor = UIColor.TableView.Cell.defaultBackground
-        sortTypeLabel.textColor = UIColor.Text.common
-        sortTypeLabel.textAlignment = .center
-        sortTypeLabel.font = UIFont(name: "AvenirNext-Regular", size: 17)!
+
+        sortTypeLabel.textSetup(text: Sort.Occasions.allCases[index].rawValue, textAlignment: .center, textColor: .common)
+        sortTypeLabel.fontSetup(name: .regular, thickness: .regular, size: .regular)
         
         sortTypeLabel.translatesAutoresizingMaskIntoConstraints = false
         
