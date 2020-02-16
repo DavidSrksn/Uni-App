@@ -336,7 +336,6 @@
 				9A6B56F023E89C780047B4A4 /* Organisms */,
 			);
 			name = Design;
-			path = Uni;
 			sourceTree = "<group>";
 		};
 		9A692B9323B556A300A94940 /* Shared */ = {
@@ -458,7 +457,6 @@
 			isa = PBXGroup;
 			children = (
 				9A9CAFAC233FC8A700258AB8 /* Main.storyboard */,
-				9A62189D23DA15A800016897 /* Design */,
 				9A9CAFA5233FC8A700258AB8 /* Uni */,
 				9A9CAFA4233FC8A700258AB8 /* Products */,
 				9AB858BA234F8E3C00F5217B /* Something else */,
@@ -478,6 +476,7 @@
 		9A9CAFA5233FC8A700258AB8 /* Uni */ = {
 			isa = PBXGroup;
 			children = (
+				9A62189D23DA15A800016897 /* Design */,
 				9A76AB3023CB6723001140ED /* Launch */,
 				9A00BC2023B9188500915C98 /* DataBase */,
 				9A692B9323B556A300A94940 /* Shared */,

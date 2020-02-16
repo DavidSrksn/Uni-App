@@ -227,7 +227,7 @@ extension UIColor{
             }
         }
         
-        static var title: UIColor {
+        static var inverted: UIColor {
             switch UIColor.interfaceStyle {
             case .dark:
                 return .white
@@ -236,133 +236,23 @@ extension UIColor{
             }
         }
         
-    }
-}
-
-// MARK: AddToWishlistButton
-extension UIColor{
-    static var AddToWishlistButtonTint: UIColor {
-        switch UIColor.interfaceStyle {
-        case .dark:
-            return .white
-        case .light:
-            return .lightGray
-        }
-    }
-}
-
-extension UIColor{
-    struct Button {
-                
-        var background = { (type: TypeButton)-> UIColor in
-                switch UIColor.interfaceStyle {
-                case .light:
-                    
-                    switch type {
-                    case .delete:
-                        return .white
-                    case .filter:
-                       return .lightGray
-                    case .map:
-                        return UIColor.Customs.blue
-                    }
-                    
-                case .dark:
-                    
-                    switch type {
-                    case .delete:
-                        return .white
-                    case .filter:
-                        return UIColor.Customs.lightBlack
-                    case .map:
-                        return UIColor.Customs.blue.lighter
-                    }
-                }
-        }
-        
-        var text = { (type: TypeButton)-> UIColor in
-                switch UIColor.interfaceStyle {
-                case .light:
-                    
-                    switch type {
-                    case .delete:
-                        return .white
-                    case .filter:
-                       return UIColor.Customs.lightBlack
-                    case .map:
-                        return UIColor.Customs.lightBlack
-                    }
-                    
-                case .dark:
-                    
-                    switch type {
-                    case .delete:
-                        return .white
-                    case .filter:
-                        return .darkGray
-                    case .map:
-                       return UIColor.Customs.lightBlack
-                    }
-                }
-        }
-        
-    }
-}
-
-// MARK: MapButton
-extension UIColor{
-    enum MapButton{
-        static var background: UIColor {
+        static var red: UIColor{
             switch UIColor.interfaceStyle {
             case .dark:
-                return UIColor.Customs.blue.lighter
+                return UIColor.Customs.red
             case .light:
-                return UIColor.Customs.blue
+                return UIColor.Customs.red
             }
         }
         
-        static var text: UIColor {
+        static var green: UIColor{
             switch UIColor.interfaceStyle {
             case .dark:
-                return UIColor.Customs.lightBlack
+                return UIColor.Customs.green
             case .light:
-                return UIColor.Customs.lightBlack
+                return UIColor.Customs.green
             }
         }
-        
-    }
-}
-
-// MARK: FilterButton
-extension UIColor{
-    enum FilterButton{
-        static var background: UIColor {
-            switch UIColor.interfaceStyle {
-            case .dark:
-                return UIColor.Customs.lightBlack
-            case .light:
-                return .lightGray
-            }
-        }
-        
-        static var shadow: UIColor {
-            switch UIColor.interfaceStyle {
-            case .dark:
-                return .darkGray
-            case .light:
-                return UIColor.Customs.lightBlack
-            }
-        }
-        
-        static var tint: UIColor {
-            switch UIColor.interfaceStyle {
-            case .dark:
-                return .white
-            case .light:
-                return UIColor.Customs.lightBlack
-            }
-        }
-        
     }
 }
 
