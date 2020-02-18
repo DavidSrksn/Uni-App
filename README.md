@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # University
 Technopark project
 
