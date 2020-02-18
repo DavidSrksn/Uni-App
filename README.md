@@ -1,4 +1,4 @@
-# Uni-App
+# Uni App
 Solo continuation of University repository  
 
 Technopark project
