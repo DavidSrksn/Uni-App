@@ -202,18 +202,9 @@ final class DepartmentCell: UITableViewCell {
         }
     }
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
-
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        let selectedCellview = UIView()
-        selectedCellview.backgroundColor = UIColor.TableView.Cell.choosedBackground
-        self.selectedBackgroundView = selectedCellview
-        departmentNameLabel.textColor = UIColor.TableView.Cell.choosedAttributes
-        departmentFullNameLabel.textColor = UIColor.TableView.Cell.choosedAttributes
-        followersLabel.textColor = UIColor.TableView.Cell.choosedAttributes
+        self.setupSelectedState(labels: [departmentNameLabel, departmentFullNameLabel,followersLabel, minPointsLabel, subjectsDifferenceLabel])
     }
 
 }

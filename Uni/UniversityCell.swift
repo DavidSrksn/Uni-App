@@ -64,15 +64,10 @@ final class UniversityCell: UITableViewCell {
       override func awakeFromNib() {
           super.awakeFromNib()
           
-      }
-
+    }
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(false, animated: false)
-        if selected{
-            let selectedCellview = UIView()
-            selectedCellview.backgroundColor = UIColor.TableView.Cell.choosedBackground
-            self.selectedBackgroundView = selectedCellview
-            universityLabel.textColor = UIColor.TableView.Cell.choosedAttributes
-        }
+        self.setupSelectedState(labels: [universityLabel])
     }
 }

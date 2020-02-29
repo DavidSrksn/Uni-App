@@ -25,7 +25,6 @@ final class FacultiesTableView: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         if (Manager.shared.UFD[Manager.shared.choosed[0] as! University]?.keys.count)! == 0 {
             NetworkManager.shared.loadFaculties(minPoints:Manager.shared.filterSettings.minPoint,subjects: Manager.shared.filterSettings.subjects, completion: { [weak self] in
                 self?.stopShimmer()

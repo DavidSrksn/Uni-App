@@ -79,13 +79,11 @@ class TableViewUniversities: UIViewController {
     
     private func reloadData() {
         if  Manager.shared.flagFilterChanged {
-            Loader.shared.showActivityIndicatory(uiView: view, blurView: Loader.shared.blurView, loadingView: Loader.shared.loadingView, actInd: Loader.shared.actInd)
-            
             NetworkManager.shared.loadUniversities(city: Manager.shared.filterSettings.country, subjects: Manager.shared.filterSettings.subjects , minPoints: Manager.shared.filterSettings.minPoint, dormitory: Manager.shared.filterSettings.campus, militaryDepartment: Manager.shared.filterSettings.military, completion: { (currentUniversity, allUniversitiesNumber) in
                 DispatchQueue.main.async{
                     Manager.shared.dataUFD = Manager.shared.UFD
                     self.tableView.reloadData()
-                    Loader.shared.removeActivityIndicator(blurView: Loader.shared.blurView, loadingView: Loader.shared.loadingView, actInd: Loader.shared.actInd)
+                    self.stopLoader()
                     if (Manager.shared.UFD.count == 0) && (currentUniversity == allUniversitiesNumber){
                         Manager.shared.warningCheck(occasion: "show", viewController: self, warningLabel: self.warning, tableView: self.tableView, warningTitle: "По вашему запросу \n ничего не найдено")
                     } else{ Manager.shared.warningCheck(occasion: "remove" , viewController: self, warningLabel: self.warning, tableView: self.tableView, warningTitle: "По вашему запросу \n ничего не найдено") }
@@ -108,6 +106,7 @@ class TableViewUniversities: UIViewController {
         setupTable()
         setupFilterButton()
         tableView.reloadData()
+        startLoader()
     }
     
     override func viewDidAppear(_ animated: Bool) {

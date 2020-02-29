@@ -23,9 +23,8 @@ extension UIButton{
         
         if let tintColor = colors["inverted"], let image = image{
             self.contentMode = .scaleAspectFit
-            self.image(for: .normal)?.withRenderingMode(.alwaysTemplate)
-            self.setImage(image, for: .normal)
-            self.image(for: .normal)?.withTintColor(tintColor)
+            image.withRenderingMode(.alwaysTemplate)
+            self.setImage(image.withTintColor(tintColor), for: .normal)
         }
     }
     

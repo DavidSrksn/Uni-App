@@ -71,11 +71,7 @@ final class FacultyCell: UITableViewCell {
 
        override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        let selectedCellview = UIView()
-        selectedCellview.backgroundColor = UIColor.TableView.Cell.choosedBackground
-        self.selectedBackgroundView = selectedCellview
-        facultyLabel.textColor = UIColor.TableView.Cell.choosedAttributes
-        facultyFullNameLabel.textColor = UIColor.TableView.Cell.choosedAttributes
+        self.setupSelectedState(labels: [facultyLabel,facultyFullNameLabel])
     }
     
 }

@@ -9,6 +9,17 @@
 import Foundation
 import  UIKit
 
+extension UIViewController{
+    
+    public func startLoader( ){
+        Loader.shared.showActivityIndicatory(uiView: self.view, blurView: Loader.shared.blurView, loadingView: Loader.shared.loadingView, actInd: Loader.shared.actInd)
+    }
+    
+    public func stopLoader(){
+        Loader.shared.removeActivityIndicator(blurView: Loader.shared.blurView, loadingView: Loader.shared.loadingView, actInd: Loader.shared.actInd)
+    }
+}
+
 struct Loader {
     
     private init(){}

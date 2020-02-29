@@ -17,14 +17,12 @@ class NavigationController: UINavigationController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         setupNavigationController() 
     }
     
     func setupNavigationController() {
         navigationBar.barTintColor = UIColor.NavigationController.background
         navigationBar.tintColor = UIColor.NavigationController.item
-        navigationBar.isTranslucent = true
     }
 
 }

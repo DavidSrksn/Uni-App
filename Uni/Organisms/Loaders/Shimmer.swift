@@ -145,7 +145,6 @@ final class Shimmer: ShimmerAnimation{
     }
     
     private func checkSubviews( backgroundView: inout UIView, shimmeringView: inout UIView, view: UIView, completion: (_ view: UIView, _ backgroundColor: UIColor) -> UIView) {
-        
         for subview in view.subviews{
             if subview.isShimmering{
                 backgroundView.addSubview(completion(subview, UIColor.Shimmer.background))
@@ -193,7 +192,6 @@ final class Shimmer: ShimmerAnimation{
     }
     
     public func prepareShimmer(view: UIView){
-        
         preparingView.frame = view.frame
         preparingView.backgroundColor = UIColor.View.background
         
